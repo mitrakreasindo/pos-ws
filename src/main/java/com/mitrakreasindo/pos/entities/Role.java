@@ -9,6 +9,7 @@ import java.util.Collection;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -47,7 +48,7 @@ public class Role implements Serializable
   @Column(name = "sflag")
   private Boolean sflag;
   @JsonIgnore
-  @OneToMany(cascade = CascadeType.ALL, mappedBy = "role")
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "role", fetch = FetchType.LAZY)
   private Collection<People> peopleCollection;
   
   public String getId()

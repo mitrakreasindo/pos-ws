@@ -5,7 +5,6 @@ package com.mitrakreasindo.pos.controller;
 
 import java.util.HashMap;
 
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,10 +20,10 @@ import com.mitrakreasindo.pos.service.PeopleService;
  *
  */
 @RestController
-@RequestMapping(value = "/api/peoples", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/peoples")
 public class PeopleController extends SimpleController<People, Long, PeopleService>
 {
-
+	
 	@PostMapping(value = "/doLogin")
 	public HashMap<Integer, String> login(@RequestBody Login login)
 	{

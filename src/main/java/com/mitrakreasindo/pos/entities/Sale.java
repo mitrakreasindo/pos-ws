@@ -9,6 +9,7 @@ import java.util.Collection;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -16,6 +17,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * @author miftakhul
@@ -47,7 +50,8 @@ public class Sale implements Serializable
   @NotNull
   @Column(name = "salesnum")
   private int salesnum;
-  @OneToMany(cascade = CascadeType.ALL, mappedBy = "salesId")
+  @JsonIgnore
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "salesId", fetch = FetchType.LAZY)
   private Collection<SalesItem> salesItemsCollection;
   @NotNull
   @Column(name = "status")

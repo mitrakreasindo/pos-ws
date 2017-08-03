@@ -26,6 +26,7 @@ public class MerchantServiceImpl extends BaseServiceImpl<MerchantRegistration> i
 		param.addValue("merchant_name", t.getMerchant().getName());
 		param.addValue("merchant_email", t.getMerchant().getEmail());
 		param.addValue("merchant_phone", t.getMerchant().getPhone());
+		param.addValue("person_phone", t.getPeople().getPhoneNumber());
 		param.addValue("merchant_address", t.getMerchant().getAddress());
 		param.addValue("the_type", t.getMerchant().getCategory().getId());
 		param.addValue("merchant_npwp", t.getMerchant().getNpwpperusahaan());

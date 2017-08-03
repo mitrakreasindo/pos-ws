@@ -5,12 +5,15 @@ import java.util.Collection;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name ="attributesetinstance")
@@ -31,9 +34,11 @@ public class AttributesetInstance implements Serializable
   @JoinColumn(name = "attributeset_id", referencedColumnName = "id")
   @ManyToOne(optional = false)
   private AttributeSet attributesetId;
-  @OneToMany(mappedBy = "attributesetinstanceId")
+  @JsonIgnore
+  @OneToMany(mappedBy = "attributesetinstanceId", fetch = FetchType.LAZY)
   private Collection<SalesItem> salesItemsCollection;
-  @OneToMany(mappedBy = "attributesetinstanceId")
+  @JsonIgnore
+  @OneToMany(mappedBy = "attributesetinstanceId", fetch = FetchType.LAZY)
   private Collection<StockDiary> stockdiaryCollection;
   
   public String getId()

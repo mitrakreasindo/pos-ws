@@ -58,7 +58,7 @@ public abstract class BaseServiceImpl<T>
   {
     try
     {
-      Query q = entityManager.createNativeQuery("SELECT * FROM " + merchantCode + "." + t.getAnnotation(Table.class).name() + " where id = '" + id + "' and sflag = true");
+      Query q = entityManager.createNativeQuery("SELECT * FROM " + merchantCode + "." + t.getAnnotation(Table.class).name() + " where id = '" + id + "' and sflag = true", t);
       return (T) q.getSingleResult();
     }
     catch (Exception e)
@@ -71,7 +71,7 @@ public abstract class BaseServiceImpl<T>
   {
     try
     {
-      Query q = entityManager.createNativeQuery("SELECT * FROM " + merchantCode + "." + t.getAnnotation(Table.class).name() + " where sflag = true");
+      Query q = entityManager.createNativeQuery("SELECT * FROM " + merchantCode + "." + t.getAnnotation(Table.class).name() + " where sflag = true", t);
       return q.getResultList();
     }
     catch (Exception e)

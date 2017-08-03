@@ -8,10 +8,13 @@ import java.util.Collection;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * @author miftakhul
@@ -35,9 +38,11 @@ public class TaxCustCategory implements Serializable
   private String siteguid;
   @Column(name = "sflag")
   private Boolean sflag;
-  @OneToMany(mappedBy = "custcategory")
+  @JsonIgnore
+  @OneToMany(mappedBy = "custcategory", fetch = FetchType.LAZY)
   private Collection<Tax> taxesCollection;
-  @OneToMany(mappedBy = "taxcategory")
+  @JsonIgnore
+  @OneToMany(mappedBy = "taxcategory", fetch = FetchType.LAZY)
   private Collection<Customer> customersCollection;
   
   public String getId()

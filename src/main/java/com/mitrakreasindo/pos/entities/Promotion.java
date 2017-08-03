@@ -8,11 +8,14 @@ import java.util.Collection;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * @author miftakhul
@@ -48,7 +51,8 @@ public class Promotion implements Serializable
   private String siteguid;
   @Column(name = "sflag")
   private Boolean sflag;
-  @OneToMany(mappedBy = "promotionid")
+  @JsonIgnore
+  @OneToMany(mappedBy = "promotionid", fetch = FetchType.LAZY)
   private Collection<Product> productsCollection;
   
   public String getId()

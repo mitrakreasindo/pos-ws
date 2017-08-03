@@ -9,6 +9,7 @@ import java.util.Collection;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -17,6 +18,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Type;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * @author miftakhul
@@ -39,9 +42,11 @@ public class Product implements Serializable
   @Type(type="org.hibernate.type.BinaryType")
   @Column(name = "image")
   private byte[] image;
-  @OneToMany(mappedBy = "product")
+  @JsonIgnore
+  @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
   private Collection<SalesItem> salesItemsCollection;
-  @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
+  @JsonIgnore
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "product", fetch = FetchType.LAZY)
   private Collection<StockDiary> stockdiaryCollection;
   @NotNull
   @Column(name = "reference")
@@ -133,7 +138,8 @@ public class Product implements Serializable
   @JoinColumn(name = "category", referencedColumnName = "id")
   @ManyToOne(optional = false)
   private Category category;
-  @OneToMany(mappedBy = "packproduct")
+  @JsonIgnore
+  @OneToMany(mappedBy = "packproduct", fetch = FetchType.LAZY)
   private Collection<Product> productsCollection;
   @JoinColumn(name = "packproduct", referencedColumnName = "id")
   @ManyToOne

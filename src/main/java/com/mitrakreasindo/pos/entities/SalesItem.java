@@ -58,7 +58,6 @@ public class SalesItem implements Serializable
   // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
   @Column(name = "refundqty")
   private Double refundqty;
-  @Basic(optional = false)
   @NotNull
   @Column(name = "siteguid")
   private String siteguid;

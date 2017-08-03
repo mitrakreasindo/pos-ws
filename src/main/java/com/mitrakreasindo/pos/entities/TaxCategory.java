@@ -9,10 +9,13 @@ import java.util.Collection;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * @author miftakhul
@@ -22,15 +25,14 @@ import javax.validation.constraints.NotNull;
 @Table(name = "taxcategories")
 public class TaxCategory implements Serializable
 {
-
-  @OneToMany(cascade = CascadeType.ALL, mappedBy = "category")
-  private Collection<Tax> taxesCollection;
-
   private static final long serialVersionUID = 1L;
   @Id
   @NotNull
   @Column(name = "id")
   private String id;
+  @JsonIgnore
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "category", fetch = FetchType.LAZY)
+  private Collection<Tax> taxesCollection;
   @NotNull
   @Column(name = "name")
   private String name;
@@ -39,7 +41,8 @@ public class TaxCategory implements Serializable
   private String siteguid;
   @Column(name = "sflag")
   private Boolean sflag;
-  @OneToMany(cascade = CascadeType.ALL, mappedBy = "taxcat")
+  @JsonIgnore
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "taxcat", fetch = FetchType.LAZY)
   private Collection<Product> productsCollection;
   
   public Collection<Tax> getTaxesCollection()
