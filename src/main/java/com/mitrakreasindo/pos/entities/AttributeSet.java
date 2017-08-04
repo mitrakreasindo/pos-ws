@@ -89,6 +89,4 @@ public class AttributeSet implements Serializable
     this.productsCollection = productsCollection;
   }
   
-  
-  
 }

@@ -40,14 +40,14 @@ public class Category implements Serializable
   @Column(name = "name")
   private String name;
   @Column(name = "texttip")
-  private String textTip;
+  private String texttip;
   @NotNull
   @Column(name = "catshowname")
-  private boolean catShowName;
+  private boolean catshowName;
   @Column(name = "colour")
   private String colour;
   @Column(name = "catorder")
-  private Integer catOrder;
+  private Integer catorder;
   @NotNull
   @Column(name = "siteguid")
   private String siteguid;
@@ -86,21 +86,21 @@ public class Category implements Serializable
   {
     this.name = name;
   }
-  public String getTextTip()
+  public String getTexttip()
   {
-    return textTip;
+    return texttip;
   }
-  public void setTextTip(String textTip)
+  public void setTexttip(String textTip)
   {
-    this.textTip = textTip;
+    this.texttip = textTip;
   }
-  public boolean isCatShowName()
+  public boolean isCatshowname()
   {
-    return catShowName;
+    return catshowName;
   }
-  public void setCatShowName(boolean catShowName)
+  public void setCatshowname(boolean catShowName)
   {
-    this.catShowName = catShowName;
+    this.catshowName = catShowName;
   }
   public String getColour()
   {
@@ -110,13 +110,13 @@ public class Category implements Serializable
   {
     this.colour = colour;
   }
-  public Integer getCatOrder()
+  public Integer getCatorder()
   {
-    return catOrder;
+    return catorder;
   }
-  public void setCatOrder(Integer catOrder)
+  public void setCatorder(Integer catOrder)
   {
-    this.catOrder = catOrder;
+    this.catorder = catOrder;
   }
   public String getSiteguid()
   {
@@ -142,11 +142,11 @@ public class Category implements Serializable
   {
     this.categoriesCollection = categoriesCollection;
   }
-  public Category getParentId()
+  public Category getParentid()
   {
     return parentid;
   }
-  public void setParentId(Category parentId)
+  public void setParentid(Category parentId)
   {
     this.parentid = parentId;
   }

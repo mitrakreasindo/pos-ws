@@ -5,6 +5,7 @@ package com.mitrakreasindo.pos.controller;
 
 import java.util.HashMap;
 
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,10 +25,10 @@ import com.mitrakreasindo.pos.service.PeopleService;
 public class PeopleController extends SimpleController<People, Long, PeopleService>
 {
 	
-	@PostMapping(value = "/doLogin")
-	public HashMap<Integer, String> login(@RequestBody Login login)
+	@PostMapping(value = "/auth/{merchantCode}")
+	public HashMap<Integer, String> login(@PathVariable("merchantCode")String merchantCode, @RequestBody Login login)
 	{
-		return service.login(login);
+		return service.login(merchantCode, login);
 	}
 	
 }

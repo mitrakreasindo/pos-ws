@@ -11,5 +11,11 @@ import java.io.OutputStream;
  */
 public interface ReportService
 {
+	
 	public OutputStream generatePdf();
+	
+	public void generatePdftest();
+	
+	public OutputStream generatePdf(OutputStream output);
+	
 }

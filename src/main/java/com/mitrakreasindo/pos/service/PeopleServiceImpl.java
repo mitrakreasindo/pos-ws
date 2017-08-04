@@ -95,7 +95,7 @@ public class PeopleServiceImpl extends BaseServiceImpl<People> implements People
 
 	
 	@Override
-	public HashMap<Integer, String> login(Login login)
+	public HashMap<Integer, String> login(String merchantCode, Login login)
 	{
 	
 		MapSqlParameterSource param = new MapSqlParameterSource();
@@ -108,9 +108,9 @@ public class PeopleServiceImpl extends BaseServiceImpl<People> implements People
     }
     catch (Exception e)
     {
-      //return
+      e.printStackTrace();
     }
-		return null;
+		return executeProcedure("login", merchantCode, param);
 	}
 
 }

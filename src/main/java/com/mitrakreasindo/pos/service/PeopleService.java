@@ -9,6 +9,6 @@ import com.mitrakreasindo.pos.entities.People;
 public interface PeopleService extends BaseService<People>
 {
 	
-	HashMap<Integer, String> login(Login login);
+	HashMap<Integer, String> login(String merchantCode, Login login);
 	
 }

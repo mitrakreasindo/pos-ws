@@ -53,6 +53,18 @@ public abstract class BaseServiceImpl<T>
     return result;
   }
  
+  protected HashMap<Integer, String> executeProcedure(String spName, SqlParameterSource param)
+  {
+    SimpleJdbcCall call = new SimpleJdbcCall(dataSource);
+    call.withProcedureName(spName);
+    
+    Map<String, Object> out = call.execute(param);
+    HashMap<Integer, String> result = new HashMap<Integer, String>();
+    
+    result.put(Integer.parseInt(out.get("retval").toString()), out.get("message").toString());
+    
+    return result;
+  }
   
   public T find(String merchantCode, String id)
   {
