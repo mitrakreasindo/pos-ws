@@ -1,6 +1,10 @@
 package com.mitrakreasindo.pos.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+
+import javax.persistence.Query;
 
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Service;
@@ -91,6 +95,16 @@ public class PeopleServiceImpl extends BaseServiceImpl<People> implements People
 		param.addValue("person_id", id);
 		
 		return executeProcedure("delete_user", merchantCode, param);
+	}
+
+	@Override
+	public List<People> findPeopleOnSales(String merchantCode)
+	{
+		List<People> peoples = new ArrayList<>();
+		Query query = entityManager.createNativeQuery(
+				"SELECT * FROM " + merchantCode + ".people as p, " + merchantCode + ".sales as s WHERE p.id = s.person",
+				People.class);
+		return peoples = query.getResultList();
 	}
 
 	

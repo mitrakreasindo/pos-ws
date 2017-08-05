@@ -51,7 +51,7 @@ public class Sale implements Serializable
   @Column(name = "salesnum")
   private int salesnum;
   @JsonIgnore
-  @OneToMany(cascade = CascadeType.ALL, mappedBy = "salesId", fetch = FetchType.LAZY)
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "salesid", fetch = FetchType.LAZY)
   private Collection<SalesItem> salesItemsCollection;
   @NotNull
   @Column(name = "status")

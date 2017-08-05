@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mitrakreasindo.pos.entities.MerchantRegistration;
-import com.mitrakreasindo.pos.service.MerchantService;
+import com.mitrakreasindo.pos.service.MerchantRegistrationService;
 import com.mitrakreasindo.pos.util.GeneralFunction;
 
 /**
@@ -28,7 +28,7 @@ public class MerchantController
 {
 
 	@Autowired
-	private MerchantService merchantService;
+	private MerchantRegistrationService merchantService;
 
 	@PostMapping(value = "/{merchantCode}")
 	public HashMap<Integer, String> post(@PathVariable("merchantCode") String merchantCode,

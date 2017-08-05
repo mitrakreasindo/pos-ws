@@ -63,9 +63,9 @@ public class SalesItem implements Serializable
   private String siteguid;
   @Column(name = "sflag")
   private Boolean sflag;
-  @JoinColumn(name = "salesId", referencedColumnName = "id")
+  @JoinColumn(name = "sales_id", referencedColumnName = "id")
   @ManyToOne(optional = false)
-  private Sale salesId;
+  private Sale salesid;
   
   public Integer getId()
   {
@@ -155,13 +155,13 @@ public class SalesItem implements Serializable
   {
     this.sflag = sflag;
   }
-  public Sale getSalesId()
+  public Sale getSalesid()
   {
-    return salesId;
+    return salesid;
   }
-  public void setSalesId(Sale salesId)
+  public void setSalesid(Sale salesId)
   {
-    this.salesId = salesId;
+    this.salesid = salesId;
   }
     
 }

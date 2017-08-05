@@ -1,11 +1,14 @@
 package com.mitrakreasindo.pos.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.persistence.Query;
 import org.springframework.stereotype.Service;
 
 import com.mitrakreasindo.pos.core.BaseServiceImpl;
+import com.mitrakreasindo.pos.entities.Sale;
 import com.mitrakreasindo.pos.entities.SalesPack;
 import com.mitrakreasindo.pos.util.GeneralFunction;
 
@@ -59,6 +62,15 @@ public class SalesServiceImpl extends BaseServiceImpl<SalesPack> implements Sale
       result.put(1, "Transaksi sales gagal");
       return result;
     }
+	}
+	
+	@Override
+	public List<Sale> findSalesByPeopleId(String merchantCode, String peopleId)
+	{
+		List<Sale> sales = new ArrayList<>();
+		Query query = entityManager.createNativeQuery(
+				"SELECT * FROM " + merchantCode + ".sales as s WHERE s.person = '" + peopleId + "'", Sale.class);
+		return sales = query.getResultList();
 	}
 
 }

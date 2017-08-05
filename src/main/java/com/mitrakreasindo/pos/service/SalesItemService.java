@@ -6,6 +6,7 @@ package com.mitrakreasindo.pos.service;
 import java.util.List;
 
 import com.mitrakreasindo.pos.entities.Product;
+import com.mitrakreasindo.pos.entities.SalesItem;
 
 /**
  * @author miftakhul
@@ -14,6 +15,10 @@ import com.mitrakreasindo.pos.entities.Product;
 public interface SalesItemService
 {
 
-	List<Product> findAllProduct();
+	SalesItem find(String merchantCode, String id);
+	
+	List<SalesItem> findAll(String merchantCode);
+	
+	List<SalesItem> findAllBySalesId(String merchantCode, String salesId);
 	
 }

@@ -3,6 +3,8 @@
  */
 package com.mitrakreasindo.pos.entities;
 
+import java.util.List;
+
 /**
  * @author miftakhul
  *
@@ -12,6 +14,10 @@ public class Report
 	
 	private String merchantName;
 	private String merchantAddress;
+	private String merchantNpwp;
+	private List<SubReport> subReports;
+	private double totalTax;
+	private double totalTransaction;
 	
 	/**
 	 * @return the merchantName
@@ -41,7 +47,62 @@ public class Report
 	{
 		this.merchantAddress = merchantAddress;
 	}
+	/**
+	 * @return the merchantNpwp
+	 */
+	public String getMerchantNpwp()
+	{
+		return merchantNpwp;
+	}
+	/**
+	 * @param merchantNpwp the merchantNpwp to set
+	 */
+	public void setMerchantNpwp(String merchantNpwp)
+	{
+		this.merchantNpwp = merchantNpwp;
+	}
+	/**
+	 * @return the subReports
+	 */
+	public List<SubReport> getSubReports()
+	{
+		return subReports;
+	}
+	/**
+	 * @param subReports the subReports to set
+	 */
+	public void setSubReports(List<SubReport> subReports)
+	{
+		this.subReports = subReports;
+	}
+	/**
+	 * @return the totalTax
+	 */
+	public double getTotalTax()
+	{
+		return totalTax;
+	}
+	/**
+	 * @param totalTax the totalTax to set
+	 */
+	public void setTotalTax(double totalTax)
+	{
+		this.totalTax = totalTax;
+	}
+	/**
+	 * @return the totalTransaction
+	 */
+	public double getTotalTransaction()
+	{
+		return totalTransaction;
+	}
+	/**
+	 * @param totalTransaction the totalTransaction to set
+	 */
+	public void setTotalTransaction(double totalTransaction)
+	{
+		this.totalTransaction = totalTransaction;
+	}
 	
 	
-
 }

@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,6 +37,14 @@ public class ReportController
 	@Autowired
 	private ReportService reportService;
 	
+	
+	@GetMapping(value = "/{merchantCode}/multi")
+	public Report getMultiUserReport(@PathVariable("merchantCode") String merchantCode)
+	{
+		return reportService.multiUserReport(merchantCode);
+	}
+	
+	
 	@GetMapping(value = "/single")
 	public void getSingleReport(HttpServletResponse response) throws IOException
 	{
@@ -43,6 +52,7 @@ public class ReportController
 		response.setContentType(MediaType.APPLICATION_PDF_VALUE);
 		reportService.generatePdf(response.getOutputStream());
 	}
+	
 	
 	@GetMapping(value = "/test")
 	public void getSingleReporTestt(HttpServletResponse response) throws IOException
