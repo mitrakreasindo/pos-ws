@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,7 +29,7 @@ public class SalesController
 	private SalesService salesService;
 	
 	@PostMapping(value = "/{merchantCode}")
-	public HashMap<Integer, String> post(@PathVariable("merchantCode") String merchantCode, SalesPack salesPack)
+	public HashMap<Integer, String> post(@PathVariable("merchantCode") String merchantCode, @RequestBody SalesPack salesPack)
 	{
 		return salesService.post(merchantCode, salesPack);
 	}

@@ -1,0 +1,48 @@
+spring:
+  profiles:
+    active: dev
+
+---
+spring:
+  profiles: dev
+  datasource:
+    url: jdbc:postgresql://localhost:5432/chromisss
+    username: postgres
+    password: toor
+#    url: jdbc:postgresql://192.168.1.40:5432/chromispos
+#    username: chromispos
+#    password: chromispos
+  jpa:
+    hibernate:
+      ddl-auto: none
+  show-sql: true
+  
+server:
+  port: 8082
+  
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: debug
+
+---
+spring:
+  profiles: prod
+  datasource:
+    url: jdbc:postgresql://localhost:5432/chromisss
+    username: postgres
+    password: toor
+  jpa:
+    hibernate:
+      ddl-auto: none
+  show-sql: true
+  
+server:
+  port: 8082
+  
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: debug

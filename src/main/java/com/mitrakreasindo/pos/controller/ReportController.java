@@ -45,32 +45,32 @@ public class ReportController
 	}
 	
 	
-	@GetMapping(value = "/single")
-	public void getSingleReport(HttpServletResponse response) throws IOException
-	{
-		
-		response.setContentType(MediaType.APPLICATION_PDF_VALUE);
-		reportService.generatePdf(response.getOutputStream());
-	}
-	
-	
-	@GetMapping(value = "/test")
-	public void getSingleReporTestt(HttpServletResponse response) throws IOException
-	{
-		reportService.generatePdftest();
-	}
-	
-	@GetMapping(value = "/testtest")
-	public String getSingleReporTesttt(ModelMap map) throws IOException
-	{
-		Report r = new Report();
-		r.setMerchantName("mitra");
-		r.setMerchantAddress("Jl. ballikpapan");
-		
-		map.addAttribute("report", r);
-		map.addAttribute(Options.getTo(ConverterTypeTo.PDF).via(ConverterTypeVia.XWPF));
-		
-		return "xdock";
-	}
+//	@GetMapping(value = "/single")
+//	public void getSingleReport(HttpServletResponse response) throws IOException
+//	{
+//		
+//		response.setContentType(MediaType.APPLICATION_PDF_VALUE);
+//		reportService.generatePdf(response.getOutputStream());
+//	}
+//	
+//	
+//	@GetMapping(value = "/test")
+//	public void getSingleReporTestt(HttpServletResponse response) throws IOException
+//	{
+//		reportService.generatePdftest();
+//	}
+//	
+//	@GetMapping(value = "/testtest")
+//	public String getSingleReporTesttt(ModelMap map) throws IOException
+//	{
+//		Report r = new Report();
+//		r.setMerchantName("mitra");
+//		r.setMerchantAddress("Jl. ballikpapan");
+//		
+//		map.addAttribute("report", r);
+//		map.addAttribute(Options.getTo(ConverterTypeTo.PDF).via(ConverterTypeVia.XWPF));
+//		
+//		return "xdock";
+//	}
 	
 }
