@@ -33,7 +33,7 @@ public class ViewSalesItemServiceImpl extends BaseServiceImpl<ViewSalesItem> imp
 	{
 		try
     {
-      Query q = entityManager.createNativeQuery("SELECT * FROM " + merchantCode + "." + t.getAnnotation(Table.class).name() + " where salesId = '" + salesId + "' and sflag = true", ViewSalesItem.class);
+      Query q = entityManager.createNativeQuery("SELECT * FROM " + merchantCode + "." + t.getAnnotation(Table.class).name() + " where sales_id = '" + salesId + "' and sflag = true", ViewSalesItem.class);
       return q.getResultList();
     }
     catch (Exception e)

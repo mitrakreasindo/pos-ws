@@ -40,7 +40,7 @@ public class ViewSalesItemController
   }
   
   @GetMapping(value="/{merchantCode}/{salesid}/salesitems")
-  public List<ViewSalesItem> findAll(@PathVariable("merchantCode") String merchantCode, @PathVariable("saleid") String salesid)
+  public List<ViewSalesItem> findAll(@PathVariable("merchantCode") String merchantCode, @PathVariable("salesid") String salesid)
   {
   	return service.findAll(merchantCode, salesid);
   }

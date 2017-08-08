@@ -19,5 +19,5 @@ public interface ViewSalesItemService
 	List<ViewSalesItem> findAll(String merchantCode);
 	
 	List<ViewSalesItem> findAll(String merchantCode, String saleId);
-
+	
 }

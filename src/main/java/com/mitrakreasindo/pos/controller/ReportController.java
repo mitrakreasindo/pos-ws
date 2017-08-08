@@ -3,27 +3,17 @@
  */
 package com.mitrakreasindo.pos.controller;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
-
-import javax.servlet.http.HttpServletResponse;
+import java.sql.Timestamp;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mitrakreasindo.pos.entities.Report;
 import com.mitrakreasindo.pos.service.ReportService;
-
-import fr.opensagres.xdocreport.converter.ConverterTypeTo;
-import fr.opensagres.xdocreport.converter.ConverterTypeVia;
-import fr.opensagres.xdocreport.converter.Options;
 
 /**
  * @author miftakhul
@@ -39,9 +29,11 @@ public class ReportController
 	
 	
 	@GetMapping(value = "/{merchantCode}/multi")
-	public Report getMultiUserReport(@PathVariable("merchantCode") String merchantCode)
+	public Report getMultiUserReport(@PathVariable("merchantCode") String merchantCode, 
+			@RequestParam("fromDate")  Timestamp fromDate, 
+			@RequestParam("toDate") Timestamp toDate)
 	{
-		return reportService.multiUserReport(merchantCode);
+		return reportService.multiUserReport(merchantCode, fromDate, toDate);
 	}
 	
 	

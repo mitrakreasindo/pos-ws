@@ -8,8 +8,9 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Type;
 
 /**
  * @author miftakhul
@@ -35,16 +36,16 @@ public class ViewSalesItem implements Serializable
   private String attributesetinstanceId;
   // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
   @Column(name = "units")
-  private Double units;
+  private Float units;
   @Column(name = "price")
-  private Double price;
+  private Float price;
   @Column(name = "taxid")
   private String taxid;
-  @Lob
+  @Type(type="org.hibernate.type.BinaryType")
   @Column(name = "attributes")
   private byte[] attributes;
   @Column(name = "refundqty")
-  private Double refundqty;
+  private Float refundqty;
   @Column(name = "siteguid")
   private String siteguid;
   @Column(name = "sflag")
@@ -54,7 +55,7 @@ public class ViewSalesItem implements Serializable
   @Column(name = "tax_name")
   private String taxName;
   @Column(name = "rate")
-  private Double rate;
+  private Float rate;
   
   public Integer getId()
   {
@@ -96,19 +97,19 @@ public class ViewSalesItem implements Serializable
   {
     this.attributesetinstanceId = attributesetinstanceId;
   }
-  public Double getUnits()
+  public Float getUnits()
   {
     return units;
   }
-  public void setUnits(Double units)
+  public void setUnits(Float units)
   {
     this.units = units;
   }
-  public Double getPrice()
+  public Float getPrice()
   {
     return price;
   }
-  public void setPrice(Double price)
+  public void setPrice(Float price)
   {
     this.price = price;
   }
@@ -128,11 +129,11 @@ public class ViewSalesItem implements Serializable
   {
     this.attributes = attributes;
   }
-  public Double getRefundqty()
+  public Float getRefundqty()
   {
     return refundqty;
   }
-  public void setRefundqty(Double refundqty)
+  public void setRefundqty(Float refundqty)
   {
     this.refundqty = refundqty;
   }
@@ -168,11 +169,11 @@ public class ViewSalesItem implements Serializable
   {
     this.taxName = taxName;
   }
-  public Double getRate()
+  public Float getRate()
   {
     return rate;
   }
-  public void setRate(Double rate)
+  public void setRate(Float rate)
   {
     this.rate = rate;
   }

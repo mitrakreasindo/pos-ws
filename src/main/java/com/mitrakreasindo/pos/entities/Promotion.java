@@ -10,10 +10,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+
+import org.hibernate.annotations.Type;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -32,11 +33,11 @@ public class Promotion implements Serializable
   @NotNull
   @Column(name = "id")
   private String id;
-  @Lob
+  @Type(type="org.hibernate.type.BinaryType")
   @Column(name = "criteria")
   private byte[] criteria;
   @NotNull
-  @Lob
+  @Type(type="org.hibernate.type.BinaryType")
   @Column(name = "script")
   private byte[] script;
   @NotNull

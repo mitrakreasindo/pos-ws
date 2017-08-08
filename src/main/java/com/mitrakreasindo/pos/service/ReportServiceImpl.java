@@ -10,12 +10,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,14 +32,12 @@ import com.mitrakreasindo.pos.entities.SubProductReport;
 import com.mitrakreasindo.pos.entities.SubReport;
 import com.mitrakreasindo.pos.entities.Tax;
 import com.mitrakreasindo.pos.entities.ViewSale;
+import com.mitrakreasindo.pos.entities.ViewSalesItem;
 
-import fr.opensagres.xdocreport.converter.ConverterRegistry;
 import fr.opensagres.xdocreport.converter.ConverterTypeTo;
 import fr.opensagres.xdocreport.converter.ConverterTypeVia;
-import fr.opensagres.xdocreport.converter.IConverter;
 import fr.opensagres.xdocreport.converter.Options;
 import fr.opensagres.xdocreport.core.XDocReportException;
-import fr.opensagres.xdocreport.core.document.DocumentKind;
 import fr.opensagres.xdocreport.document.IXDocReport;
 import fr.opensagres.xdocreport.document.registry.XDocReportRegistry;
 import fr.opensagres.xdocreport.template.IContext;
@@ -68,6 +66,7 @@ public class ReportServiceImpl implements ReportService
 	@Autowired
 	private SalesService salesService;
 
+	
 	@Autowired
 	private SalesItemService salesItemService;
 	
@@ -278,6 +277,128 @@ public class ReportServiceImpl implements ReportService
 		
 		return report;
 	}
+	
+	
+	public Report multiUserReport(String merchantCode, Timestamp fromDate, Timestamp toDate)
+	{
+		Report report = new Report();
+
+		List<People> peoples = new ArrayList<>();
+		List<SubReport> subReports = new ArrayList<>();
+
+		// get all people doing transaction
+		peoples = peopleService.findPeopleOnViewSales(merchantCode, fromDate, toDate);
+		for (People p : peoples)
+		{
+
+			List<ViewSale> sales = new ArrayList<>();
+			List<ViewSalesItem> saleItems = new ArrayList<>();
+			List<SubProductReport> subProductReports = new ArrayList<>();
+
+			// get sales by people id
+			sales = viewSalesService.findAllByPeopleId(merchantCode, p.getId(), fromDate, toDate);
+			System.out.println("all sales by people id " + p.getId() + " size = " + sales.size());
+
+			for (ViewSale s : sales)
+			{
+				// get salesitem by sales id
+				saleItems.addAll(viewSalesItemService.findAll(merchantCode, s.getId()));
+				System.out.println("all saleitems by sale id " + s.getId() + " size = " + saleItems.size());
+			}
+
+			for (ViewSalesItem s: saleItems)
+			{
+				Tax productTax = null;
+				SubProductReport subProduct = null;
+				Integer indexSubreport = null;
+				
+//				Product product = productService.find(merchantCode, s.getProduct().getId());
+//				System.out.println("product name by salesitem "+s.getId()+" is "+product.getName());
+				
+				subProduct = findSubProductReportByProductName(subProductReports, s.getProduct());
+				
+				if (subProduct == null)
+				{
+					subProduct = new SubProductReport();
+				}
+				else
+				{
+					indexSubreport = subProductReports.indexOf(subProduct);
+				}
+				
+				if (s.getTaxid() != null || !s.getTaxid().equalsIgnoreCase(""))
+				{
+					productTax = taxService.find(merchantCode, s.getTaxid());
+				}
+				
+				
+				double price = s.getPrice();
+				double qty = s.getUnits() + subProduct.getQty();
+				double subTotal = qty * price;
+				double tax = ((s.getPrice() * productTax.getRate()) / 100) + subProduct.getTax() ;
+				double discount = 0;
+				
+				double total = ( subTotal - tax - discount);
+
+				subProduct.setProductId(s.getProduct());
+				subProduct.setProductName(s.getProductName());
+				subProduct.setQty(qty);
+				subProduct.setPrice(price);
+				subProduct.setSubTotal(subTotal);
+				subProduct.setDisc(discount);
+				subProduct.setTax(tax);
+				subProduct.setTotal(total);
+				
+				if (indexSubreport != null)
+				{
+					subProductReports.set(indexSubreport, subProduct);
+				}
+				else 
+				{
+					subProductReports.add(subProduct);
+				}				
+			}
+			
+			double totalTax = 0;
+			double totalTransaction = 0;
+			
+			for (SubProductReport s : subProductReports)
+			{
+				totalTax += s.getTax();
+				totalTransaction += s.getTotal();
+			}
+			
+			SubReport subReport = new SubReport();
+			subReport.setPeopleName(p.getName());
+			subReport.setSubProductReports(subProductReports);
+			subReport.setTotaltax(totalTax);
+			subReport.setTotalTransaction(totalTransaction);
+			
+			subReports.add(subReport);
+		}
+
+		double totalTax = 0;
+		double totalTransaction = 0;
+		
+		for (SubReport s : subReports)
+		{
+			totalTax += s.getTotaltax();
+			totalTransaction += s.getTotalTransaction();
+		}
+		
+		Merchant merchant = merchantService.findByMerchantCode(merchantCode);
+		
+		report.setMerchantName(merchant.getName());
+		report.setMerchantAddress(merchant.getAddress());
+		report.setMerchantNpwp(merchant.getNpwpperusahaan());
+		report.setSubReports(subReports);
+		report.setTotalTax(totalTax);
+		report.setTotalTransaction(totalTransaction);
+		
+		return report;
+	}
+	
+	
 	
 	private SubProductReport findSubProductReportByProductName(List<SubProductReport> subProductReports, String productId)
 	{
