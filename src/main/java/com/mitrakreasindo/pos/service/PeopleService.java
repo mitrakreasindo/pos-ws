@@ -17,6 +17,6 @@ public interface PeopleService extends BaseService<People>
 	
 	List<People> findPeopleOnViewSales(String merchantCode);
 	
-	List<People> findPeopleOnViewSales(String merchantCode, Timestamp fromDate, Timestamp toDate);
+	List<String> findPeopleIdOnViewSales(String merchantCode, Timestamp fromDate, Timestamp toDate);
 	
 }

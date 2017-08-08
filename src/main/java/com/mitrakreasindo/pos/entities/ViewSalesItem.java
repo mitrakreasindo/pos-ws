@@ -26,8 +26,8 @@ public class ViewSalesItem implements Serializable
   @Column(name = "id")
   @Id
   private Integer id;
-  @Column(name = "salesId")
-  private String salesId;
+  @Column(name = "sales_id")
+  private String sales_id;
   @Column(name = "line")
   private Integer line;
   @Column(name = "product")
@@ -65,13 +65,13 @@ public class ViewSalesItem implements Serializable
   {
     this.id = id;
   }
-  public String getSalesId()
+  public String getSales_id()
   {
-    return salesId;
+    return sales_id;
   }
-  public void setSalesId(String salesId)
+  public void setSales_id(String salesId)
   {
-    this.salesId = salesId;
+    this.sales_id = salesId;
   }
   public Integer getLine()
   {

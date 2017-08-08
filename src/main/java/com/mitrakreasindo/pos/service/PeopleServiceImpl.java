@@ -2,7 +2,6 @@ package com.mitrakreasindo.pos.service;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -141,13 +140,11 @@ public class PeopleServiceImpl extends BaseServiceImpl<People> implements People
 	}
 
 	@Override
-	public List<People> findPeopleOnViewSales(String merchantCode, Timestamp fromDate, Timestamp toDate)
+	public List<String> findPeopleIdOnViewSales(String merchantCode, Timestamp fromDate, Timestamp toDate)
 	{
-		List<People> peoples = new ArrayList<>();
 		Query query = entityManager.createNativeQuery(
-				"SELECT * FROM " + merchantCode + ".people as p, " + merchantCode + ".viewsales as s WHERE p.id = s.person AND s.datenew between '"+fromDate.toString()+"' AND '"+toDate.toString()+"'",
-				People.class);
-		return peoples = query.getResultList();
+				"SELECT DISTINCT p.id FROM " + merchantCode + ".people as p, " + merchantCode + ".viewsales as s WHERE p.id = s.person AND s.datenew between '"+fromDate.toString()+"' AND '"+toDate.toString()+"'");
+		return query.getResultList();
 	}
 
 }
