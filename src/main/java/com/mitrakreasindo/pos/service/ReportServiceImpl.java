@@ -255,13 +255,13 @@ public class ReportServiceImpl implements ReportService
 				
 				table = new PdfPTable(7);
 				table.setWidthPercentage(100);
-				table.addCell(pdfCell("PROD.DESCRIPTION", colFont));
-				table.addCell(pdfCell("QTY", colFont));
-				table.addCell(pdfCell("PRICE", colFont));
-				table.addCell(pdfCell("SUB-TTL", colFont));
-				table.addCell(pdfCell("DISC. %", colFont));
-				table.addCell(pdfCell("TAX", colFont));
-				table.addCell(pdfCell("TOTAL", colFont));
+				table.addCell(pdfCell("Product Description", colFont));
+				table.addCell(pdfCell("Quantity", colFont));
+				table.addCell(pdfCell("Price", colFont));
+				table.addCell(pdfCell("Sub Total", colFont));
+				table.addCell(pdfCell("Discount %", colFont));
+				table.addCell(pdfCell("Tax", colFont));
+				table.addCell(pdfCell("Total", colFont));
 				for (SubProductReport p : s.getSubProductReports())
 				{
 					table.addCell(new Phrase(p.getProductName(), colFont));
@@ -366,13 +366,13 @@ public class ReportServiceImpl implements ReportService
 				
 				table = new PdfPTable(7);
 				table.setWidthPercentage(100);
-				table.addCell(pdfCell("PROD.DESCRIPTION", colFont));
-				table.addCell(pdfCell("QTY", colFont));
-				table.addCell(pdfCell("PRICE", colFont));
-				table.addCell(pdfCell("SUB-TTL", colFont));
-				table.addCell(pdfCell("DISC. %", colFont));
-				table.addCell(pdfCell("TAX", colFont));
-				table.addCell(pdfCell("TOTAL", colFont));
+				table.addCell(pdfCell("Product Description", colFont));
+				table.addCell(pdfCell("Quantity", colFont));
+				table.addCell(pdfCell("Price", colFont));
+				table.addCell(pdfCell("Sub Total", colFont));
+				table.addCell(pdfCell("Discount %", colFont));
+				table.addCell(pdfCell("Tax", colFont));
+				table.addCell(pdfCell("Total", colFont));
 				for (SubProductReport p : s.getSubProductReports())
 				{
 					table.addCell(new Phrase(p.getProductName(), colFont));
