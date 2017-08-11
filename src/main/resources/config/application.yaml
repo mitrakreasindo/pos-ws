@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: prod
+    active: dev
 
 ---
 spring:
@@ -38,9 +38,15 @@ logging:
 spring:
   profiles: prod
   datasource:
-    url: jdbc:postgresql://localhost:5432/chromisss
-    username: postgres
-    password: toor
+    url: jdbc:postgresql://localhost:5432/chromispos
+    username: chromispos
+    password: chromispos
+#    url: jdbc:postgresql://192.168.1.40:5432/chromispos
+#    username: chromispos
+#    password: chromispos
+#    url: jdbc:postgresql://192.168.1.113:5432/chromispos
+#    username: chromispos
+#    password: chromispos
   jpa:
     hibernate:
       ddl-auto: none
@@ -53,9 +59,11 @@ logging:
   level:
     org:
       hibernate:
-        SQL: error
+        SQL: debug
+      springframework:
+        web: debug
       
   pattern:
     file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
-  file: logs/chromis
+  file: logs/chromis.log
   config: classpath:config/logback.xml

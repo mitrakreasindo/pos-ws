@@ -197,115 +197,6 @@ public class ReportServiceImpl implements ReportService
 
 		return report;
 	}
-
-	public void multiUserReportPdf(String merchantCode, Timestamp fromDate, Timestamp toDate)
-	{
-
-		Report report = multiUserReport(merchantCode, fromDate, toDate);
-		
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-		DecimalFormat decimalFormat = (DecimalFormat) DecimalFormat.getCurrencyInstance();
-		DecimalFormatSymbols decimalFormatSymbol = new DecimalFormatSymbols();
-		
-		decimalFormatSymbol.setCurrencySymbol("Rp. ");
-		decimalFormatSymbol.setMonetaryDecimalSeparator(',');
-		decimalFormatSymbol.setGroupingSeparator('.');
-		
-		decimalFormat.setDecimalFormatSymbols(decimalFormatSymbol);
-		
-		Document document = new Document(PageSize.A4);
-		try
-		{
-			PdfWriter.getInstance(document, new FileOutputStream(new File("/home/miftakhul/testpdf.pdf")));
-			document.open();
-
-			Font titleFont = FontFactory.getFont("Times roman", 12, BaseColor.BLACK);
-			Font title1Font = FontFactory.getFont("Times roman", 10, BaseColor.GRAY);
-			Font colFont = FontFactory.getFont("Times roman", 6, BaseColor.BLACK);
-			Font simpleFont = FontFactory.getFont("Times roman", 6, BaseColor.BLACK);
-
-			Paragraph title = new Paragraph();
-			title.setFont(titleFont);
-			title.add(
-					GeneralFunction.checkNullString(report.getMerchantName()) + "\n" + 
-					GeneralFunction.checkNullString(report.getMerchantAddress()) + "\n" + 
-					"NPWP. "+new String(GeneralFunction.checkNullString(report.getMerchantNpwp()).equalsIgnoreCase("") ? "---":report.getMerchantNpwp()));
-			title.setAlignment(Element.ALIGN_CENTER);
-			document.add(title);
-			
-
-			Paragraph date = new Paragraph();
-			date.setFont(title1Font);
-			date.add(dateFormat.format(fromDate) + " - " + dateFormat.format(toDate));
-			date.setAlignment(Element.ALIGN_CENTER);
-			date.setSpacingAfter(10);
-			document.add(date);
-
-			PdfPTable table;			
-			for (SubReport s : report.getSubReports())
-			{
-				Paragraph userInfo = new Paragraph();
-				userInfo.setFont(simpleFont);
-				userInfo.add("Sales : "+s.getPeopleName()+"\n"
-						+ dateFormat.format(s.getDate()));
-				userInfo.setAlignment(Element.ALIGN_RIGHT);
-				userInfo.setSpacingAfter(5);
-				userInfo.setLeading(10);
-				document.add(userInfo);
-				
-				table = new PdfPTable(7);
-				table.setWidthPercentage(100);
-				table.addCell(pdfCell("Product Description", colFont));
-				table.addCell(pdfCell("Quantity", colFont));
-				table.addCell(pdfCell("Price", colFont));
-				table.addCell(pdfCell("Sub Total", colFont));
-				table.addCell(pdfCell("Discount %", colFont));
-				table.addCell(pdfCell("Tax", colFont));
-				table.addCell(pdfCell("Total", colFont));
-				for (SubProductReport p : s.getSubProductReports())
-				{
-					table.addCell(new Phrase(p.getProductName(), colFont));
-					table.addCell(new Phrase(String.valueOf(p.getQty()), colFont));
-					table.addCell(new Phrase(decimalFormat.format(p.getPrice()), colFont));
-					table.addCell(new Phrase(decimalFormat.format(p.getSubTotal()), colFont));
-					table.addCell(new Phrase(String.valueOf(p.getDisc()), colFont));
-					table.addCell(new Phrase(String.valueOf(p.getTax()), colFont));
-					table.addCell(new Phrase(decimalFormat.format(p.getTotal()), colFont));
-				}
-
-				document.add(table);
-				
-				Paragraph subTotal = new Paragraph();
-				subTotal.setFont(simpleFont);
-				subTotal.add("Total "+s.getPeopleName()+"\nTax : "+s.getTotaltax()+" Total : "+decimalFormat.format(s.getTotalTransaction()));
-				subTotal.setSpacingAfter(20);
-				subTotal.setLeading(10);
-				subTotal.setAlignment(Element.ALIGN_RIGHT);
-				document.add(subTotal);
-				
-			}
-			
-			Paragraph allTotal = new Paragraph();
-			allTotal.setFont(simpleFont);
-			allTotal.add("Total Sales\nTax : "+report.getTotalTax()+" Total : "+decimalFormat.format(report.getTotalTransaction()));
-			allTotal.setSpacingBefore(20);
-			allTotal.setLeading(10);
-			allTotal.setAlignment(Element.ALIGN_RIGHT);
-			document.add(allTotal);
-
-			document.close();
-
-		} catch (FileNotFoundException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (DocumentException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	}
 	
 	public byte[] multiUserByteReportPdf(String merchantCode, Timestamp fromDate, Timestamp toDate)
 	{
@@ -338,8 +229,8 @@ public class ReportServiceImpl implements ReportService
 			Paragraph title = new Paragraph();
 			title.setFont(titleFont);
 			title.add(
-					GeneralFunction.checkNullString(report.getMerchantName()) + "\n" + 
-					GeneralFunction.checkNullString(report.getMerchantAddress()) + "\n" + 
+					GeneralFunction.checkNullString(report.getMerchantName()).toUpperCase() + "\n" + 
+					"SALES DETAIL REPORT\n" + 
 					"NPWP. "+new String(GeneralFunction.checkNullString(report.getMerchantNpwp()).equalsIgnoreCase("") ? "---":report.getMerchantNpwp()));
 			title.setAlignment(Element.ALIGN_CENTER);
 			document.add(title);
