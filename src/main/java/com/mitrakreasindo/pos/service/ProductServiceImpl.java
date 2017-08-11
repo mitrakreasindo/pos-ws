@@ -82,7 +82,7 @@ public class ProductServiceImpl extends BaseServiceImpl<Product> implements Prod
 		param.addValue("promotion_id", validator);
 		param.addValue("all_products", t.getAllproducts());
 		param.addValue("manage_stock", t.getManagestock());
-		return executeProcedure("insert_porduct", merchantCode, param);
+		return executeProcedure("insert_product", merchantCode, param);
 	}
 
 	@Override
@@ -144,7 +144,7 @@ public class ProductServiceImpl extends BaseServiceImpl<Product> implements Prod
     param.addValue("promotion_id", validator);
     param.addValue("all_products", t.getAllproducts());
     param.addValue("manage_stock", t.getManagestock());
-  	return executeProcedure("update_porduct", merchantCode, param);
+  	return executeProcedure("update_product", merchantCode, param);
 	}
 
 	@Override
@@ -152,7 +152,7 @@ public class ProductServiceImpl extends BaseServiceImpl<Product> implements Prod
 	{
 		MapSqlParameterSource param = new MapSqlParameterSource();
 		param.addValue("product_id", id);
-		return executeProcedure("delete_porduct", merchantCode, param);
+		return executeProcedure("delete_product", merchantCode, param);
 	}
 
 }
