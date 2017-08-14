@@ -3,6 +3,7 @@
  */
 package com.mitrakreasindo.pos.service;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.persistence.Query;
@@ -11,6 +12,7 @@ import javax.persistence.Table;
 import org.springframework.stereotype.Service;
 
 import com.mitrakreasindo.pos.core.BaseServiceImpl;
+import com.mitrakreasindo.pos.entities.ViewSale;
 import com.mitrakreasindo.pos.entities.ViewSalesItem;
 
 /**
@@ -40,6 +42,18 @@ public class ViewSalesItemServiceImpl extends BaseServiceImpl<ViewSalesItem> imp
     {
       return null;
     }
+	}
+	
+	@Override
+	public List<ViewSalesItem> findAllByCategoryId(String merchantCode, String categoryId, Timestamp fromDate,
+			Timestamp toDate)
+	{
+		Query q = entityManager.createNativeQuery(""
+				+ "select si.* from "+merchantCode+".categories as c, "+merchantCode+".products as p, "
+				+merchantCode+".viewsales as s, "+merchantCode+".viewsalesitems as si where si.sales_id = s.id "
+						+ "and p.id = si.product and c.id = p.category and s.datenew between '"+fromDate.toString()+"' "
+								+ "AND '"+toDate.toString()+"' and c.id = '"+categoryId+"'", ViewSalesItem.class);
+		return q.getResultList();
 	}
 	
 }

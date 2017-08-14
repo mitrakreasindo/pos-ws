@@ -3,8 +3,11 @@
  */
 package com.mitrakreasindo.pos.service;
 
+import java.sql.Timestamp;
 import java.util.HashMap;
+import java.util.List;
 
+import javax.persistence.Query;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,6 +76,18 @@ public class CategoryServiceImpl extends BaseServiceImpl<Category> implements Ca
     
     return executeProcedure("delete_category", merchantCode, param);    
   }
+
+  
+	@Override
+	public List<Category> findCategoriesFromSalesItem(String merchantCode, Timestamp fromDate, Timestamp toDate)
+	{
+		Query q = entityManager.createNativeQuery(""
+				+ "select c.* from "+merchantCode+".categories as c, "+merchantCode+".products as p, "
+				+merchantCode+".viewsales as s, "+merchantCode+".viewsalesitems as si where si.sales_id = s.id "
+						+ "and p.id = si.product and c.id = p.category and s.datenew between '"+fromDate.toString()+"' "
+								+ "AND '"+toDate.toString()+"' group by c.id", Category.class); 
+		return q.getResultList();
+	}
 	
 
 }

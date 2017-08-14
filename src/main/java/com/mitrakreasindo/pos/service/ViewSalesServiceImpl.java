@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.mitrakreasindo.pos.core.BaseServiceImpl;
 import com.mitrakreasindo.pos.entities.ViewSale;
+import com.mitrakreasindo.pos.entities.ViewSalesItem;
 
 /**
  * @author miftakhul
@@ -40,5 +41,6 @@ public class ViewSalesServiceImpl extends BaseServiceImpl<ViewSale> implements V
 		Query q = entityManager.createNativeQuery("SELECT * FROM "+merchantCode+"."+ViewSale.class.getAnnotation(Table.class).name()+" WHERE person = '"+personId+"' AND datenew between '"+fromDate.toString()+"' AND '"+toDate.toString()+"'", ViewSale.class);
 		return q.getResultList();
 	}
+
 	
 }

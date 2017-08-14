@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mitrakreasindo.pos.entities.Report;
+import com.mitrakreasindo.pos.entities.ReportCategory;
 import com.mitrakreasindo.pos.service.ReportService;
 
 /**
@@ -43,9 +44,17 @@ public class ReportController
 		return reportService.multiUserReport(merchantCode, fromDate, toDate);
 	}
 	
+	@GetMapping(value = "/{merchantCode}/category")
+	public ReportCategory reportByCategory(@PathVariable("merchantCode") String merchantCode, 
+			@RequestParam("fromDate")  Timestamp fromDate, 
+			@RequestParam("toDate") Timestamp toDate)
+	{
+		return reportService.reportByCategory(merchantCode, fromDate, toDate);
+	}
+	
 	
 	@GetMapping(value = "/{merchantCode}/multi/{documentType}")
-	public byte[] getMultiUserReportExport(@PathVariable("merchantCode") String merchantCode,
+	public byte[] getMultiUserReportByte(@PathVariable("merchantCode") String merchantCode,
 			@PathVariable("documentType") String documentType,
 			@RequestParam("fromDate")  Timestamp fromDate, 
 			@RequestParam("toDate") Timestamp toDate)
@@ -53,6 +62,20 @@ public class ReportController
 		if (documentType.equalsIgnoreCase("pdf")) 
 		{		
 			return reportService.multiUserByteReportPdf(merchantCode, fromDate, toDate);
+		}
+		
+		return null;
+	}
+	
+	@GetMapping(value = "/{merchantCode}/single/{documentType}/category")
+	public byte[] getSingleUserReportByCategoryByte(@PathVariable("merchantCode") String merchantCode,
+			@PathVariable("documentType") String documentType,
+			@RequestParam("fromDate")  Timestamp fromDate, 
+			@RequestParam("toDate") Timestamp toDate)
+	{
+		if (documentType.equalsIgnoreCase("pdf")) 
+		{		
+			return reportService.singleUserByteReportPdfByCategory(merchantCode, fromDate, toDate);
 		}
 		
 		return null;
@@ -70,6 +93,30 @@ public class ReportController
 			response.setHeader("Content-disposition", "attachment;filename=report "+merchantCode+".pdf");
 			
 			InputStream in = new ByteArrayInputStream(reportService.multiUserByteReportPdf(merchantCode, fromDate, toDate));
+			try
+			{
+				IOUtils.copy(in, response.getOutputStream());
+				response.flushBuffer();
+			} catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+			
+		}
+	}
+	
+	@GetMapping(value = "/{merchantCode}/single/download/{documentType}/category")
+	public void getSingleUserReportExportDownload(@PathVariable("merchantCode") String merchantCode,
+			@PathVariable("documentType") String documentType,
+			@RequestParam("fromDate")  Timestamp fromDate, 
+			@RequestParam("toDate") Timestamp toDate, HttpServletResponse response)
+	{
+		if (documentType.equalsIgnoreCase("pdf")) 
+		{		
+			response.setContentType(MediaType.APPLICATION_PDF_VALUE);
+			response.setHeader("Content-disposition", "attachment;filename=report "+merchantCode+".pdf");
+			
+			InputStream in = new ByteArrayInputStream(reportService.singleUserByteReportPdfByCategory(merchantCode, fromDate, toDate));
 			try
 			{
 				IOUtils.copy(in, response.getOutputStream());

@@ -22,5 +22,5 @@ public interface ViewSalesService
 	List<ViewSale> findAllByPeopleId(String merchantCode, String personId);
 	
 	List<ViewSale> findAllByPeopleId(String merchantCode, String personId, Timestamp fromDate, Timestamp toDate);
-
+	
 }
