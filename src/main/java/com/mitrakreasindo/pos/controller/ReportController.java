@@ -28,7 +28,7 @@ import com.mitrakreasindo.pos.service.ReportService;
  *
  */
 @RestController
-@RequestMapping(value = "/api/reports")
+@RequestMapping(value = "/api/reports", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ReportController
 {
 

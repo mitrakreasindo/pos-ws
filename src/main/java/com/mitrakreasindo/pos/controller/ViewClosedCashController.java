@@ -6,6 +6,7 @@ package com.mitrakreasindo.pos.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +20,7 @@ import com.mitrakreasindo.pos.service.ViewClosedCashService;
  *
  */
 @RestController
-@RequestMapping(value = "/api/closedcash")
+@RequestMapping(value = "/api/closedcash", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ViewClosedCashController
 {
 
