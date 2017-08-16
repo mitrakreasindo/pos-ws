@@ -54,9 +54,9 @@ public class MerchantController
 		HashMap<Integer, String> spresult = new HashMap<Integer, String>();
 		spresult = merchantService.post(merchantCode, merchantRegistration);
 
-		// If succes or return = 1 than send email
+		// If succes or return = 0 than send email
 		Map.Entry<Integer, String> entry = spresult.entrySet().iterator().next();
-		if (entry.getKey() == 1)
+		if (entry.getKey() == 0)
 		{
 			boolean isSent = GeneralFunction.sendRegistrationMail(merchantRegistration);
 			if (isSent == false)
