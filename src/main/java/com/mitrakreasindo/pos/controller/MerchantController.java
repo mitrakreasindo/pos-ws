@@ -46,9 +46,9 @@ public class MerchantController
 		// Generate password
 		String generatedpassword = GeneralFunction.generatePassword();
 		// String generatedpassword = "Admin1234!";
-		String username = merchantRegistration.getMerchant().getCode() + "_admin";
+		String username = merchantRegistration.getMerchant().getCode() + "_ADMIN";
 		merchantRegistration.getPeople().setApppassword(generatedpassword);
-		merchantRegistration.getPeople().setName(generatedpassword);
+		merchantRegistration.getPeople().setName(username);
 
 		// Exec sp
 		HashMap<Integer, String> spresult = new HashMap<Integer, String>();
