@@ -28,7 +28,7 @@ public class MerchantRegistrationServiceImpl extends BaseServiceImpl<MerchantReg
 		param.addValue("merchant_phone", t.getMerchant().getPhone());
 		param.addValue("person_phone", t.getPeople().getPhoneNumber());
 		param.addValue("merchant_address", t.getMerchant().getAddress());
-		param.addValue("the_type", t.getMerchant().getCategory().getId());
+		param.addValue("merchant_category", t.getMerchant().getCategory().getId());
 		param.addValue("merchant_npwp", t.getMerchant().getNpwpperusahaan());
 		param.addValue("person_id", t.getPeople().getId());
 		param.addValue("person_name", t.getPeople().getName());
@@ -44,7 +44,7 @@ public class MerchantRegistrationServiceImpl extends BaseServiceImpl<MerchantReg
 		
 		try
     {
-      param.addValue("app_pass", GeneralFunction.encryptPassword(GeneralFunction.checkNullString(t.getPeople().getApppassword())));
+      param.addValue("user_password", GeneralFunction.encryptPassword(GeneralFunction.checkNullString(t.getPeople().getApppassword())));
     }
     catch (Exception e)
     {

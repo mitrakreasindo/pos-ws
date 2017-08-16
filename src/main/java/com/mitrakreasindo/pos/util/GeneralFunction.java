@@ -153,7 +153,7 @@ public class GeneralFunction {
          message.setFrom(new InternetAddress(from));
 
          // Set To: header field of the header.
-         message.addRecipient(Message.RecipientType.TO, new InternetAddress(todefault));
+         // message.addRecipient(Message.RecipientType.TO, new InternetAddress(todefault));
          message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
 
          // Set Subject: header field
