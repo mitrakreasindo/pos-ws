@@ -79,15 +79,25 @@ public class CategoryServiceImpl extends BaseServiceImpl<Category> implements Ca
 
   
 	@Override
-	public List<Category> findCategoriesFromSalesItem(String merchantCode, Timestamp fromDate, Timestamp toDate)
+	public List<Category> findParentCategoriesFromSalesItem(String merchantCode, Timestamp fromDate, Timestamp toDate)
 	{
 		Query q = entityManager.createNativeQuery(""
 				+ "select c.* from "+merchantCode+".categories as c, "+merchantCode+".products as p, "
 				+merchantCode+".viewsales as s, "+merchantCode+".viewsalesitems as si where si.sales_id = s.id "
-						+ "and p.id = si.product and c.id = p.category and s.datenew between '"+fromDate.toString()+"' "
+						+ "and p.id = si.product and c.id = p.category and c.parentid is null and s.datenew between '"+fromDate.toString()+"' "
 								+ "AND '"+toDate.toString()+"' group by c.id", Category.class); 
 		return q.getResultList();
 	}
 	
-
+	@Override
+	public List<Category> findSubCategoriesFromSalesItem(String merchantCode, Timestamp fromDate, Timestamp toDate)
+	{
+		Query q = entityManager.createNativeQuery(""
+				+ "select c.* from "+merchantCode+".categories as c, "+merchantCode+".products as p, "
+				+merchantCode+".viewsales as s, "+merchantCode+".viewsalesitems as si where si.sales_id = s.id "
+						+ "and p.id = si.product and c.id = p.category and c.parentid is not null and s.datenew between '"+fromDate.toString()+"' "
+								+ "AND '"+toDate.toString()+"' group by c.id", Category.class); 
+		return q.getResultList();
+	}
+	
 }

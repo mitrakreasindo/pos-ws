@@ -49,7 +49,7 @@ public class ReportController
 			@RequestParam("fromDate")  Timestamp fromDate, 
 			@RequestParam("toDate") Timestamp toDate)
 	{
-		return reportService.reportByCategory(merchantCode, fromDate, toDate);
+		return reportService.reportByParentCategory(merchantCode, fromDate, toDate);
 	}
 	
 	
@@ -75,7 +75,7 @@ public class ReportController
 	{
 		if (documentType.equalsIgnoreCase("pdf")) 
 		{		
-			return reportService.singleUserByteReportPdfByCategory(merchantCode, fromDate, toDate);
+			return reportService.singleUserByteReportPdfByParentCategory(merchantCode, fromDate, toDate);
 		}
 		
 		return null;
@@ -116,7 +116,7 @@ public class ReportController
 			response.setContentType(MediaType.APPLICATION_PDF_VALUE);
 			response.setHeader("Content-disposition", "attachment;filename=report "+merchantCode+".pdf");
 			
-			InputStream in = new ByteArrayInputStream(reportService.singleUserByteReportPdfByCategory(merchantCode, fromDate, toDate));
+			InputStream in = new ByteArrayInputStream(reportService.singleUserByteReportPdfByParentCategory(merchantCode, fromDate, toDate));
 			try
 			{
 				IOUtils.copy(in, response.getOutputStream());

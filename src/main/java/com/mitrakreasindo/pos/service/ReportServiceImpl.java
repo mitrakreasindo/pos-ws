@@ -135,7 +135,7 @@ public class ReportServiceImpl implements ReportService
 					double price = s.getPrice();
 					double qty = s.getUnits() + subProduct.getQty();
 					double subTotal = qty * price;
-					double tax = ((s.getPrice() * productTax.getRate()) / 100) + subProduct.getTax();
+					double tax = (((s.getPrice() * productTax.getRate()) / 100) * s.getUnits()) + subProduct.getTax();
 					double discount = 0;
 
 					double total = (subTotal - tax - discount);
@@ -203,7 +203,7 @@ public class ReportServiceImpl implements ReportService
 		return report;
 	}
 	
-	public ReportCategory reportByCategory(String merchantCode, Timestamp fromDate, Timestamp toDate)
+	public ReportCategory reportByParentCategory(String merchantCode, Timestamp fromDate, Timestamp toDate)
 	{
 		ReportCategory report = new ReportCategory();
 
@@ -216,7 +216,120 @@ public class ReportServiceImpl implements ReportService
 			List<SubCategoryReport> subCategoryReports = new ArrayList<>();
 			
 		// get all people doing transaction
-			categories = categoryService.findCategoriesFromSalesItem(merchantCode, getFromDate(time), getToDate(time));
+			categories = categoryService.findParentCategoriesFromSalesItem(merchantCode, getFromDate(time), getToDate(time));
+			for (Category category : categories)
+			{
+
+				List<ViewSalesItem> saleItems = new ArrayList<>();
+				
+				saleItems = viewSalesItemService.findAllByCategoryId(merchantCode, category.getId(), getFromDate(time), getToDate(time));
+				
+				for (ViewSalesItem s : saleItems)
+				{
+					Tax productTax = null;
+					SubCategoryReport subCategory = null;
+					Integer indexSubreport = null;
+
+					subCategory = findSubCategoryReportByCategoryId(subCategoryReports, category.getId());
+
+					if (subCategory == null)
+					{
+						subCategory = new SubCategoryReport();
+					} 
+					else
+					{
+						indexSubreport = subCategoryReports.indexOf(subCategory);
+					}
+
+					if (s.getTaxid() != null || !s.getTaxid().equalsIgnoreCase(""))
+					{
+						productTax = taxService.find(merchantCode, s.getTaxid());
+					}
+					
+					double price = s.getPrice() + subCategory.getPrice();
+					double qty = s.getUnits() + subCategory.getQty();
+					double subTotal = (s.getPrice() * s.getUnits()) + subCategory.getSubTotal();
+					double tax = (((s.getPrice() * productTax.getRate()) / 100) * s.getUnits() )+ subCategory.getTax();
+					double discount = 0;
+
+					double total = (subTotal - tax - discount);
+
+					subCategory.setCategoryId(category.getId());
+					subCategory.setCategoryName(category.getName());
+					subCategory.setQty(qty);
+					subCategory.setPrice(price);
+					subCategory.setSubTotal(subTotal);
+					subCategory.setDisc(discount);
+					subCategory.setTax(tax);
+					subCategory.setTotal(total);
+
+					if (indexSubreport != null)
+					{
+						subCategoryReports.set(indexSubreport, subCategory);
+					} else
+					{
+						subCategoryReports.add(subCategory);
+					}
+				}
+			}
+			
+			if (categories.size() != 0) 
+			{
+  			double totalTax = 0;
+  			double totalTransaction = 0;
+  
+  			for (SubCategoryReport s : subCategoryReports)
+  			{
+  				totalTax += s.getTax();
+  				totalTransaction += s.getTotal();
+  			}
+  			
+  			SubReportCategory subReport = new SubReportCategory();
+  			subReport.setDate(new Date(time.getTime()));
+  			subReport.setSubCategoryReports(subCategoryReports);
+  			subReport.setTotaltax(totalTax);
+  			subReport.setTotalTransaction(totalTransaction);
+  
+  			subReports.add(subReport);
+			}
+		}
+		
+		
+		double totalTax = 0;
+		double totalTransaction = 0;
+
+		for (SubReportCategory s : subReports)
+		{
+			totalTax += s.getTotaltax();
+			totalTransaction += s.getTotalTransaction();
+		}
+
+		Merchant merchant = merchantService.findByMerchantCode(merchantCode);
+
+		report.setMerchantName(merchant.getName());
+		report.setMerchantAddress(merchant.getAddress());
+		report.setMerchantNpwp(merchant.getNpwpperusahaan());
+		report.setSubReports(subReports);
+		report.setTotalTax(totalTax);
+		report.setTotalTransaction(totalTransaction);
+
+		return report;
+	}
+	
+	public ReportCategory reportBySubCategory(String merchantCode, Timestamp fromDate, Timestamp toDate)
+	{
+		ReportCategory report = new ReportCategory();
+
+		List<Timestamp> listTime = rangeDate(fromDate, toDate);
+		List<Category> categories = new ArrayList<>();
+		List<SubReportCategory> subReports = new ArrayList<>();
+
+		for (Timestamp time: listTime)
+		{	
+			List<SubCategoryReport> subCategoryReports = new ArrayList<>();
+			
+		// get all people doing transaction
+			categories = categoryService.findSubCategoriesFromSalesItem(merchantCode, getFromDate(time), getToDate(time));
 			for (Category category : categories)
 			{
 
@@ -246,10 +359,10 @@ public class ReportServiceImpl implements ReportService
 						productTax = taxService.find(merchantCode, s.getTaxid());
 					}
 
-					double price = s.getPrice();
+					double price = s.getPrice() + subCategory.getPrice();
 					double qty = s.getUnits() + subCategory.getQty();
-					double subTotal = qty * price;
-					double tax = ((s.getPrice() * productTax.getRate()) / 100) + subCategory.getTax();
+					double subTotal = (s.getPrice() * s.getUnits()) + subCategory.getSubTotal();
+					double tax = (((s.getPrice() * productTax.getRate()) / 100) * s.getUnits() )+ subCategory.getTax();
 					double discount = 0;
 
 					double total = (subTotal - tax - discount);
@@ -324,7 +437,7 @@ public class ReportServiceImpl implements ReportService
 		
 		Report report = multiUserReport(merchantCode, fromDate, toDate);
 		
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		DecimalFormat decimalFormat = (DecimalFormat) DecimalFormat.getCurrencyInstance();
 		DecimalFormatSymbols decimalFormatSymbol = new DecimalFormatSymbols();
 		
@@ -390,7 +503,7 @@ public class ReportServiceImpl implements ReportService
 					table.addCell(new Phrase(decimalFormat.format(p.getPrice()), colFont));
 					table.addCell(new Phrase(decimalFormat.format(p.getSubTotal()), colFont));
 					table.addCell(new Phrase(String.valueOf(p.getDisc()), colFont));
-					table.addCell(new Phrase(String.valueOf(p.getTax()), colFont));
+					table.addCell(new Phrase(decimalFormat.format(p.getTax()), colFont));
 					table.addCell(new Phrase(decimalFormat.format(p.getTotal()), colFont));
 				}
 
@@ -398,7 +511,7 @@ public class ReportServiceImpl implements ReportService
 				
 				Paragraph subTotal = new Paragraph();
 				subTotal.setFont(simpleFont);
-				subTotal.add("Total "+s.getPeopleName()+"\nTax : "+s.getTotaltax()+" Total : "+decimalFormat.format(s.getTotalTransaction()));
+				subTotal.add("Total "+s.getPeopleName()+"\nTax : "+decimalFormat.format(s.getTotaltax())+" Total : "+decimalFormat.format(s.getTotalTransaction()));
 				subTotal.setSpacingAfter(20);
 				subTotal.setLeading(10);
 				subTotal.setAlignment(Element.ALIGN_RIGHT);
@@ -408,7 +521,7 @@ public class ReportServiceImpl implements ReportService
 			
 			Paragraph allTotal = new Paragraph();
 			allTotal.setFont(simpleFont);
-			allTotal.add("Total Sales\nTax : "+report.getTotalTax()+" Total : "+decimalFormat.format(report.getTotalTransaction()));
+			allTotal.add("Total Sales\nTax : "+decimalFormat.format(report.getTotalTax())+" Total : "+decimalFormat.format(report.getTotalTransaction()));
 			allTotal.setSpacingBefore(20);
 			allTotal.setLeading(10);
 			allTotal.setAlignment(Element.ALIGN_RIGHT);
@@ -426,14 +539,14 @@ public class ReportServiceImpl implements ReportService
 
 	}
 
-	public byte[] singleUserByteReportPdfByCategory(String merchantCode, Timestamp fromDate, Timestamp toDate)
+	public byte[] singleUserByteReportPdfByParentCategory(String merchantCode, Timestamp fromDate, Timestamp toDate)
 	{
 
 		ByteArrayOutputStream output = new ByteArrayOutputStream();
 		
-		ReportCategory report = reportByCategory(merchantCode, fromDate, toDate);
+		ReportCategory report = reportByParentCategory(merchantCode, fromDate, toDate);
 		
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		DecimalFormat decimalFormat = (DecimalFormat) DecimalFormat.getCurrencyInstance();
 		DecimalFormatSymbols decimalFormatSymbol = new DecimalFormatSymbols();
 		
@@ -498,7 +611,7 @@ public class ReportServiceImpl implements ReportService
 					table.addCell(new Phrase(decimalFormat.format(p.getPrice()), colFont));
 					table.addCell(new Phrase(decimalFormat.format(p.getSubTotal()), colFont));
 					table.addCell(new Phrase(String.valueOf(p.getDisc()), colFont));
-					table.addCell(new Phrase(String.valueOf(p.getTax()), colFont));
+					table.addCell(new Phrase(decimalFormat.format(p.getTax()), colFont));
 					table.addCell(new Phrase(decimalFormat.format(p.getTotal()), colFont));
 				}
 
@@ -506,7 +619,7 @@ public class ReportServiceImpl implements ReportService
 				
 				Paragraph subTotal = new Paragraph();
 				subTotal.setFont(simpleFont);
-				subTotal.add("Tax : "+s.getTotaltax()+" Sub Total : "+decimalFormat.format(s.getTotalTransaction()));
+				subTotal.add("Tax : "+decimalFormat.format(s.getTotaltax())+" Sub Total : "+decimalFormat.format(s.getTotalTransaction()));
 				subTotal.setSpacingAfter(20);
 				subTotal.setLeading(10);
 				subTotal.setAlignment(Element.ALIGN_RIGHT);
@@ -516,7 +629,7 @@ public class ReportServiceImpl implements ReportService
 			
 			Paragraph allTotal = new Paragraph();
 			allTotal.setFont(simpleFont);
-			allTotal.add("Total Sales\nTax : "+report.getTotalTax()+" Total : "+decimalFormat.format(report.getTotalTransaction()));
+			allTotal.add("Total Sales\nTax : "+decimalFormat.format(report.getTotalTax())+" Total : "+decimalFormat.format(report.getTotalTransaction()));
 			allTotal.setSpacingBefore(20);
 			allTotal.setLeading(10);
 			allTotal.setAlignment(Element.ALIGN_RIGHT);
@@ -534,6 +647,113 @@ public class ReportServiceImpl implements ReportService
 
 	}
 
+	public byte[] singleUserByteReportPdfBySubCategory(String merchantCode, Timestamp fromDate, Timestamp toDate)
+	{
+
+		ByteArrayOutputStream output = new ByteArrayOutputStream();
+		
+		ReportCategory report = reportBySubCategory(merchantCode, fromDate, toDate);
+		
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		DecimalFormat decimalFormat = (DecimalFormat) DecimalFormat.getCurrencyInstance();
+		DecimalFormatSymbols decimalFormatSymbol = new DecimalFormatSymbols();
+		
+		decimalFormatSymbol.setCurrencySymbol("Rp. ");
+		decimalFormatSymbol.setMonetaryDecimalSeparator(',');
+		decimalFormatSymbol.setGroupingSeparator('.');
+		
+		decimalFormat.setDecimalFormatSymbols(decimalFormatSymbol);
+		
+		Document document = new Document(PageSize.A4);
+		try
+		{
+			PdfWriter.getInstance(document, output);
+			document.open();
+
+			Font titleFont = FontFactory.getFont("Times roman", 12, BaseColor.BLACK);
+			Font title1Font = FontFactory.getFont("Times roman", 10, BaseColor.GRAY);
+			Font colFont = FontFactory.getFont("Times roman", 6, BaseColor.BLACK);
+			Font simpleFont = FontFactory.getFont("Times roman", 6, BaseColor.BLACK);
+
+			Paragraph title = new Paragraph();
+			title.setFont(titleFont);
+			title.add(
+					GeneralFunction.checkNullString(report.getMerchantName()).toUpperCase() + "\n" + 
+					"SALES SUMMARY REPORT - BY CATEGORY\n" + 
+					"NPWP. "+new String(GeneralFunction.checkNullString(report.getMerchantNpwp()).equalsIgnoreCase("") ? "---":report.getMerchantNpwp()));
+			title.setAlignment(Element.ALIGN_CENTER);
+			document.add(title);
+			
+
+			Paragraph date = new Paragraph();
+			date.setFont(title1Font);
+			date.add(dateFormat.format(fromDate) + " - " + dateFormat.format(toDate));
+			date.setAlignment(Element.ALIGN_CENTER);
+			date.setSpacingAfter(10);
+			document.add(date);
+
+			PdfPTable table;			
+			for (SubReportCategory s : report.getSubReports())
+			{
+				Paragraph userInfo = new Paragraph();
+				userInfo.setFont(simpleFont);
+				userInfo.add(dateFormat.format(s.getDate()));
+				userInfo.setAlignment(Element.ALIGN_RIGHT);
+				userInfo.setSpacingAfter(5);
+				userInfo.setLeading(10);
+				document.add(userInfo);
+				
+				table = new PdfPTable(7);
+				table.setWidthPercentage(100);
+				table.addCell(pdfCell("Category", colFont));
+				table.addCell(pdfCell("Quantity", colFont));
+				table.addCell(pdfCell("Price", colFont));
+				table.addCell(pdfCell("Sub Total", colFont));
+				table.addCell(pdfCell("Discount %", colFont));
+				table.addCell(pdfCell("Tax", colFont));
+				table.addCell(pdfCell("Total", colFont));
+				for (SubCategoryReport p : s.getSubCategoryReports())
+				{
+					table.addCell(new Phrase(p.getCategoryName(), colFont));
+					table.addCell(new Phrase(String.valueOf(p.getQty()), colFont));
+					table.addCell(new Phrase(decimalFormat.format(p.getPrice()), colFont));
+					table.addCell(new Phrase(decimalFormat.format(p.getSubTotal()), colFont));
+					table.addCell(new Phrase(String.valueOf(p.getDisc()), colFont));
+					table.addCell(new Phrase(decimalFormat.format(p.getTax()), colFont));
+					table.addCell(new Phrase(decimalFormat.format(p.getTotal()), colFont));
+				}
+
+				document.add(table);
+				
+				Paragraph subTotal = new Paragraph();
+				subTotal.setFont(simpleFont);
+				subTotal.add("Tax : "+decimalFormat.format(s.getTotaltax())+" Sub Total : "+decimalFormat.format(s.getTotalTransaction()));
+				subTotal.setSpacingAfter(20);
+				subTotal.setLeading(10);
+				subTotal.setAlignment(Element.ALIGN_RIGHT);
+				document.add(subTotal);
+				
+			}
+			
+			Paragraph allTotal = new Paragraph();
+			allTotal.setFont(simpleFont);
+			allTotal.add("Total Sales\nTax : "+decimalFormat.format(report.getTotalTax())+" Total : "+decimalFormat.format(report.getTotalTransaction()));
+			allTotal.setSpacingBefore(20);
+			allTotal.setLeading(10);
+			allTotal.setAlignment(Element.ALIGN_RIGHT);
+			document.add(allTotal);
+
+			document.close();
+
+			return output.toByteArray();
+		} catch (DocumentException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+
+	}
 	
 	
 	
