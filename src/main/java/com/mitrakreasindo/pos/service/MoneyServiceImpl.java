@@ -11,6 +11,8 @@ import javax.persistence.Query;
 
 import org.springframework.stereotype.Service;
 
+import com.mitrakreasindo.pos.entities.Money;
+
 /**
  * @author miftakhul
  *
@@ -24,82 +26,82 @@ public class MoneyServiceImpl implements MoneyService
 	
 	
 	@Override
-	public double getCoshToDay(String merchantCode)
+	public double getCoshToDay()
 	{
-		Query q = entityManager.createNativeQuery("select cost_today from "+merchantCode+".viewcosttoday");
+		Query q = entityManager.createNativeQuery("select cost_today from viewcosttoday");
 		return ((List<Double>) q.getResultList()).stream().filter(x -> x != null).mapToDouble(Double::doubleValue).sum();
 	}
 
 	@Override
-	public double getCoshThisWeek(String merchantCode)
+	public double getCoshThisWeek()
 	{
-		Query q = entityManager.createNativeQuery("select cost_this_week from "+merchantCode+".viewcostthisweek");
+		Query q = entityManager.createNativeQuery("select cost_this_week from viewcostthisweek");
 		return ((List<Double>) q.getResultList()).stream().filter(x -> x != null).mapToDouble(Double::doubleValue).sum();
 	}
 
 	@Override
-	public double getCoshThisMonth(String merchantCode)
+	public double getCoshThisMonth()
 	{
-		Query q = entityManager.createNativeQuery("select cost_this_month from "+merchantCode+".viewcostthismonth");
+		Query q = entityManager.createNativeQuery("select cost_this_month from viewcostthismonth");
 		return ((List<Double>) q.getResultList()).stream().filter(x -> x != null).mapToDouble(Double::doubleValue).sum();
 	}
 
 	@Override
-	public double getCoshThisYear(String merchantCode)
+	public double getCoshThisYear()
 	{
-		Query q = entityManager.createNativeQuery("select cost_this_year from "+merchantCode+".viewcostthisyear");
+		Query q = entityManager.createNativeQuery("select cost_this_year from viewcostthisyear");
 		return ((List<Double>) q.getResultList()).stream().filter(x -> x != null).mapToDouble(Double::doubleValue).sum();
 	}
 	
 	@Override
-	public double getRevenueToDay(String merchantCode)
+	public double getRevenueToDay()
 	{
-		Query q = entityManager.createNativeQuery("select revenue_today from "+merchantCode+".viewrevenuetoday");
+		Query q = entityManager.createNativeQuery("select revenue_today from viewrevenuetoday");
 		return ((List<Double>) q.getResultList()).stream().filter(x -> x != null).mapToDouble(Double::doubleValue).sum();
 	}
 
 	@Override
-	public double getRevenueThisWeek(String merchantCode)
+	public double getRevenueThisWeek()
 	{
-		Query q = entityManager.createNativeQuery("select revenue_this_week from "+merchantCode+".viewrevenuethisweek");
+		Query q = entityManager.createNativeQuery("select revenue_this_week from viewrevenuethisweek");
 		return ((List<Double>) q.getResultList()).stream().filter(x -> x != null).mapToDouble(Double::doubleValue).sum();
 	}
 	
 	@Override
-	public double getRevenueThisMonth(String merchantCode)
+	public double getRevenueThisMonth()
 	{
-		Query q = entityManager.createNativeQuery("select revenue_this_month from "+merchantCode+".viewrevenuethismonth");
-		return ((List<Double>) q.getResultList()).stream().filter(x -> x != null).mapToDouble(Double::doubleValue).sum();
-	}
-
-	@Override
-	public double getRevenueThisYear(String merchantCode)
-	{
-		Query q = entityManager.createNativeQuery("select revenue_this_year from "+merchantCode+".viewrevenuethisyear");
+		Query q = entityManager.createNativeQuery("select revenue_this_month from viewrevenuethismonth");
 		return ((List<Double>) q.getResultList()).stream().filter(x -> x != null).mapToDouble(Double::doubleValue).sum();
 	}
 
+	@Override
+	public double getRevenueThisYear()
+	{
+		Query q = entityManager.createNativeQuery("select revenue_this_year from viewrevenuethisyear");
+		return ((List<Double>) q.getResultList()).stream().filter(x -> x != null).mapToDouble(Double::doubleValue).sum();
+	}
+
 	
 	
 	@Override
-	public Money getCostInfo(String merchantCode)
+	public Money getCostInfo()
 	{
 		Money money = new Money();
-		money.setDay(getCoshToDay(merchantCode));
-		money.setWeek(getCoshThisWeek(merchantCode));
-		money.setMonth(getCoshThisMonth(merchantCode));
-		money.setYear(getCoshThisYear(merchantCode));
+		money.setDay(getCoshToDay());
+		money.setWeek(getCoshThisWeek());
+		money.setMonth(getCoshThisMonth());
+		money.setYear(getCoshThisYear());
 		return money;
 	}
 
 	@Override
-	public Money getRevenueInfo(String merchantCode)
+	public Money getRevenueInfo()
 	{
 		Money money = new Money();
-		money.setDay(getRevenueToDay(merchantCode));
-		money.setWeek(getRevenueThisWeek(merchantCode));
-		money.setMonth(getRevenueThisMonth(merchantCode));
-		money.setYear(getRevenueThisYear(merchantCode));
+		money.setDay(getRevenueToDay());
+		money.setWeek(getRevenueThisWeek());
+		money.setMonth(getRevenueThisMonth());
+		money.setYear(getRevenueThisYear());
 		return money;
 	}
 

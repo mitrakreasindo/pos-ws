@@ -14,6 +14,6 @@ import com.mitrakreasindo.pos.entities.ClosedCash;
 public interface ClosedCashService
 {
 
-	HashMap<Integer, String> post(String merchantCode, ClosedCash closedCash);
+	HashMap<Integer, String> post(ClosedCash closedCash);
 	
 }

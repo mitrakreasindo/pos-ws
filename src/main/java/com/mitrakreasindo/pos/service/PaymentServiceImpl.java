@@ -28,13 +28,13 @@ public class PaymentServiceImpl extends BaseServiceImpl<Payment> implements Paym
 	}
 
 	@Override
-	public HashMap<Integer, String> update(String merchantCode, String receiptId, float tendered)
+	public HashMap<Integer, String> update(String receiptId, float tendered)
 	{
 		MapSqlParameterSource param = new MapSqlParameterSource();
     param.addValue("receipt_id", receiptId);
     param.addValue("tendered_amount", tendered);
         
-    return executeProcedure("update_payment", merchantCode, param);
+    return executeProcedure("update_payment", param);
 	}
 
 }

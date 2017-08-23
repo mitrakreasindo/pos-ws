@@ -22,7 +22,7 @@ public class SalesServiceImpl extends BaseServiceImpl<SalesPack> implements Sale
 	}
 
 	@Override
-	public HashMap<Integer, String> post(String merchantCode, SalesPack salesPack)
+	public HashMap<Integer, String> post(SalesPack salesPack)
 	{
 		
 		HashMap<Integer, String> result = new HashMap<>();
@@ -34,7 +34,7 @@ public class SalesServiceImpl extends BaseServiceImpl<SalesPack> implements Sale
     String taxlinesJson = GeneralFunction.convert2Json(salesPack.getTaxlines());
     
     //Use native query to execute sp with json input
-    Query q = entityManager.createNativeQuery("SELECT * FROM "+merchantCode+".insert_sales_new"
+    Query q = entityManager.createNativeQuery("SELECT * FROM insert_sales_new"
             + "("
             + "'"+receiptsJson+"',"
             + "'"+salesJson+"',"
@@ -67,12 +67,11 @@ public class SalesServiceImpl extends BaseServiceImpl<SalesPack> implements Sale
 	}
 	
 	@Override
-	public List<Sale> findSalesByPeopleId(String merchantCode, String peopleId)
+	public List<Sale> findSalesByPeopleId(String peopleId)
 	{
-		List<Sale> sales = new ArrayList<>();
 		Query query = entityManager.createNativeQuery(
-				"SELECT * FROM " + merchantCode + ".sales as s WHERE s.person = '" + peopleId + "'", Sale.class);
-		return sales = query.getResultList();
+				"SELECT * FROM sales as s WHERE s.person = '" + peopleId + "'", Sale.class);
+		return query.getResultList();
 	}
 
 }

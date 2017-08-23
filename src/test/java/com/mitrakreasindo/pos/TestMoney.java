@@ -3,15 +3,12 @@
  */
 package com.mitrakreasindo.pos;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.mitrakreasindo.pos.service.Money;
 import com.mitrakreasindo.pos.service.MoneyService;
 
 /**
@@ -31,20 +28,20 @@ public class TestMoney
 	{
 //		fail("Not yet implemented");
 		System.out.println("================== testing serivice");
-		double day = service.getCoshToDay("public");
-		double week = service.getCoshThisWeek("public");
-		double month = service.getCoshThisMonth("public");
-		double year = service.getCoshThisYear("public");
+		double day = service.getCoshToDay();
+		double week = service.getCoshThisWeek();
+		double month = service.getCoshThisMonth();
+		double year = service.getCoshThisYear();
 		System.out.println("total ============= day "+day+" week "+week+" month "+month+" year "+year);
 		
 		
-		double rday = service.getRevenueToDay("public");
+		double rday = service.getRevenueToDay();
 		System.out.println(" rday =============== "+rday);
-		double rweek = service.getRevenueThisWeek("public");
+		double rweek = service.getRevenueThisWeek();
 		System.out.println(" rweek =============== "+rweek);
-		double rmonth = service.getRevenueThisMonth("public");
+		double rmonth = service.getRevenueThisMonth();
 		System.out.println(" rmonth =============== "+rmonth);
-		double ryear = service.getRevenueThisYear("public");
+		double ryear = service.getRevenueThisYear();
 		System.out.println(" ryear =============== "+ryear);
 		System.out.println("total ============= day "+rday+" week "+rweek+" month "+rmonth+" year "+ryear);
 	}

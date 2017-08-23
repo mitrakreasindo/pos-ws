@@ -14,10 +14,10 @@ import com.mitrakreasindo.pos.entities.ViewClosedCash;
 public interface ViewClosedCashService
 {
 
-	ViewClosedCash find(String merchantCode, String id);
+	ViewClosedCash find(String id);
 	
-	List<ViewClosedCash> findAll(String merchantCode);
+	List<ViewClosedCash> findAll();
 	
-	List<ViewClosedCash> findByMoney(String codeMerchant, String moneyId);
+	List<ViewClosedCash> findByMoney(String moneyId);
 	
 }

@@ -27,21 +27,21 @@ public class ViewClosedCashController
 	@Autowired
 	private ViewClosedCashService viewClosedCashService;
 	
-	@GetMapping(value = "/{codeMerchant}/{receipt_id}")
-	public ViewClosedCash findById(@PathVariable("codeMerchant") String codeMerchant, @PathVariable("receipt_id") String receiptId)
+	@GetMapping(value = "/{receipt_id}")
+	public ViewClosedCash findById(@PathVariable("receipt_id") String receiptId)
 	{
-		return viewClosedCashService.find(codeMerchant, receiptId);
+		return viewClosedCashService.find(receiptId);
 	}
 		
-	@GetMapping(value = "/{codeMerchant}/money/{moneyId}")
-	public List<ViewClosedCash> findByMoneyId(@PathVariable("codeMerchant") String codeMerchant, @PathVariable("moneyId") String moneyId)
+	@GetMapping(value = "/money/{moneyId}")
+	public List<ViewClosedCash> findByMoneyId(@PathVariable("moneyId") String moneyId)
 	{
-		return viewClosedCashService.findByMoney(codeMerchant, moneyId);
+		return viewClosedCashService.findByMoney(moneyId);
 	}
 	
-	@GetMapping(value = "/{codeMerchant}")
-	public List<ViewClosedCash> findAll(@PathVariable("codeMerchant") String codeMerchant)
+	@GetMapping
+	public List<ViewClosedCash> findAll()
 	{
-		return viewClosedCashService.findAll(codeMerchant);
+		return viewClosedCashService.findAll();
 	}
 }

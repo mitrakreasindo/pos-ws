@@ -12,16 +12,16 @@ import java.util.List;
  */
 public interface BaseService<T>
 {
-	HashMap<Integer, String> post(String merchantCode, T t);
+	HashMap<Integer, String> post(T t);
   
-	HashMap<Integer, String> put(String merchantCode, String id, T t);
+	HashMap<Integer, String> put(String id, T t);
   
-	HashMap<Integer, String> delete(String merchantCode, String id);
+	HashMap<Integer, String> delete(String id);
   
-  T find(String merchantCode, String id);
+  T find(String id);
   
-  List<T> findAll(String merchantCode);
+  List<T> findAll();
   
-  int count(String merchantCode);
+  int count();
   
 }

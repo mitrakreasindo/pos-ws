@@ -14,10 +14,10 @@ import com.mitrakreasindo.pos.entities.SalesItem;
 public interface SalesItemService
 {
 
-	SalesItem find(String merchantCode, String id);
+	SalesItem find(String id);
 	
-	List<SalesItem> findAll(String merchantCode);
+	List<SalesItem> findAll();
 	
-	List<SalesItem> findAllBySalesId(String merchantCode, String salesId);
+	List<SalesItem> findAllBySalesId(String salesId);
 	
 }

@@ -23,7 +23,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  *
  */
 @Entity
-@Table(name = "merchantcategories")
+@Table(name = "merchantcategories",schema = "public")
 public class MerchantCategory implements Serializable
 {
 

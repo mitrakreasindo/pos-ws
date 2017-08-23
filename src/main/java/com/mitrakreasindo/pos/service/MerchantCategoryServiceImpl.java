@@ -27,11 +27,11 @@ public class MerchantCategoryServiceImpl implements MerchantCategoryService
 
 	
 	@Override
-	public List<MerchantCategory> findAll(String merchantCode)
+	public List<MerchantCategory> findAll()
 	{
 		try
     {
-      Query q = entityManager.createNativeQuery("SELECT * FROM " + merchantCode + "." + MerchantCategory.class.getAnnotation(Table.class).name() + " where sflag = true", MerchantCategory.class);
+      Query q = entityManager.createNativeQuery("SELECT * FROM public." + MerchantCategory.class.getAnnotation(Table.class).name() + " where sflag = true", MerchantCategory.class);
       return q.getResultList();
     }
     catch (Exception e)
@@ -41,20 +41,20 @@ public class MerchantCategoryServiceImpl implements MerchantCategoryService
 	}
 
 	@Override
-	public List<MerchantCategory> findName(String merchantCode)
+	public List<MerchantCategory> findName()
 	{
 		Query query = entityManager.createNativeQuery("select distinct on(name)id, name, subcategory, sflag \n" +
-	      "from "+merchantCode+"." + MerchantCategory.class.getAnnotation(Table.class).name() + " \n" +
+	      "from public." + MerchantCategory.class.getAnnotation(Table.class).name() + " \n" +
 	      "where sflag = true \n"+
 	      "order by name", MerchantCategory.class);
 	    return query.getResultList();
 	}
 
 	@Override
-	public List<MerchantCategory> findSub(String merchantCode, String name)
+	public List<MerchantCategory> findSub(String name)
 	{
     Query query = entityManager.createNativeQuery("select id, name, subcategory, sflag \n" +
-        "from "+merchantCode+"." + MerchantCategory.class.getAnnotation(Table.class).name() + "\n" +
+        "from public." + MerchantCategory.class.getAnnotation(Table.class).name() + "\n" +
         "where sflag = true \n" +
         "and name = '"+name+"'", MerchantCategory.class);
       return query.getResultList();

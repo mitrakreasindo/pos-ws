@@ -27,16 +27,16 @@ public class ViewUnPaidTransController
 	@Autowired
 	private ViewUnPaidTransService service;
 	
-	@GetMapping(value="/{merchantCode}/{receiptId}")
-  public ViewUnPaidTrans find(@PathVariable("merchantCode") String merchantCode, @PathVariable("receiptId") String receiptId)
+	@GetMapping(value="/{receiptId}")
+  public ViewUnPaidTrans find(@PathVariable("receiptId") String receiptId)
   {
-  	return service.find(merchantCode, receiptId);
+  	return service.find(receiptId);
   }
   
-  @GetMapping(value="/{merchantCode}")
-  public List<ViewUnPaidTrans> findAll(@PathVariable("merchantCode") String merchantCode)
+  @GetMapping
+  public List<ViewUnPaidTrans> findAll()
   {
-  	return service.findAll(merchantCode);
+  	return service.findAll();
   }
 	
 }

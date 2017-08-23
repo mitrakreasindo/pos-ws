@@ -15,7 +15,7 @@ public class ReportCategory
 	private String merchantName;
 	private String merchantAddress;
 	private String merchantNpwp;
-	private List<SubReportCategory> subReports;
+	private List<ReportCategorySub> subReports;
 	private double totalTax;
 	private double totalTransaction;
 	
@@ -64,14 +64,14 @@ public class ReportCategory
 	/**
 	 * @return the subReports
 	 */
-	public List<SubReportCategory> getSubReports()
+	public List<ReportCategorySub> getSubReports()
 	{
 		return subReports;
 	}
 	/**
 	 * @param subReports the subReports to set
 	 */
-	public void setSubReports(List<SubReportCategory> subReports)
+	public void setSubReports(List<ReportCategorySub> subReports)
 	{
 		this.subReports = subReports;
 	}

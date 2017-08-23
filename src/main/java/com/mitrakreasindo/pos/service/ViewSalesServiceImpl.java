@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import com.mitrakreasindo.pos.core.BaseServiceImpl;
 import com.mitrakreasindo.pos.entities.ViewSale;
-import com.mitrakreasindo.pos.entities.ViewSalesItem;
 
 /**
  * @author miftakhul
@@ -29,16 +28,16 @@ public class ViewSalesServiceImpl extends BaseServiceImpl<ViewSale> implements V
 	}
 
 	@Override
-	public List<ViewSale> findAllByPeopleId(String merchantCode, String personId)
+	public List<ViewSale> findAllByPeopleId(String personId)
 	{
-		Query q = entityManager.createNativeQuery("SELECT * FROM "+merchantCode+"."+ViewSale.class.getAnnotation(Table.class).name()+" WHERE person = '"+personId+"'", ViewSale.class);
+		Query q = entityManager.createNativeQuery("SELECT * FROM "+ViewSale.class.getAnnotation(Table.class).name()+" WHERE person = '"+personId+"'", ViewSale.class);
 		return q.getResultList();
 	}
 	
 	@Override
-	public List<ViewSale> findAllByPeopleId(String merchantCode, String personId, Timestamp fromDate, Timestamp toDate)
+	public List<ViewSale> findAllByPeopleId(String personId, Timestamp fromDate, Timestamp toDate)
 	{
-		Query q = entityManager.createNativeQuery("SELECT * FROM "+merchantCode+"."+ViewSale.class.getAnnotation(Table.class).name()+" WHERE person = '"+personId+"' AND datenew between '"+fromDate.toString()+"' AND '"+toDate.toString()+"'", ViewSale.class);
+		Query q = entityManager.createNativeQuery("SELECT * FROM "+ViewSale.class.getAnnotation(Table.class).name()+" WHERE person = '"+personId+"' AND datenew between '"+fromDate.toString()+"' AND '"+toDate.toString()+"'", ViewSale.class);
 		return q.getResultList();
 	}
 

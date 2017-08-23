@@ -11,12 +11,12 @@ import com.mitrakreasindo.pos.entities.People;
 public interface PeopleService extends BaseService<People>
 {
 	
-	HashMap<Integer, String> login(String merchantCode, Login login);
+	HashMap<Integer, String> login(Login login);
 	
-	List<People> findPeopleOnSales(String merchantCode);
+	List<People> findPeopleOnSales();
 	
-	List<People> findPeopleOnViewSales(String merchantCode);
+	List<People> findPeopleOnViewSales();
 	
-	List<String> findPeopleIdOnViewSales(String merchantCode, Timestamp fromDate, Timestamp toDate);
+	List<String> findPeopleIdOnViewSales(Timestamp fromDate, Timestamp toDate);
 	
 }

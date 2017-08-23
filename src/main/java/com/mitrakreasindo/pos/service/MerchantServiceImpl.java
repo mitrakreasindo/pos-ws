@@ -27,7 +27,7 @@ public class MerchantServiceImpl  implements MerchantService
 	public Merchant findByMerchantCode(String merchantCode)
 	{
 		
-		Query q = entityManager.createNativeQuery("Select * from "+Merchant.class.getAnnotation(Table.class).name()+ " where code = '"+merchantCode+"'", Merchant.class);
+		Query q = entityManager.createNativeQuery("Select * from public."+Merchant.class.getAnnotation(Table.class).name()+ " where code = '"+merchantCode+"'", Merchant.class);
 		return (Merchant) q.getSingleResult();
 	}
 

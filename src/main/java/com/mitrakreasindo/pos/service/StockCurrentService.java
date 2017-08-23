@@ -7,6 +7,6 @@ import com.mitrakreasindo.pos.entities.StockCurrent;
 public interface StockCurrentService
 {
 
-	HashMap<Integer, String> post(String merchantCode, StockCurrent stockCurrent);
+	HashMap<Integer, String> post(StockCurrent stockCurrent);
 	
 }

@@ -9,13 +9,13 @@ import java.util.List;
  * @author miftakhul
  *
  */
-public class Report
+public class Report<T>
 {
 	
 	private String merchantName;
 	private String merchantAddress;
 	private String merchantNpwp;
-	private List<SubReport> subReports;
+	private List<T> subReports;
 	private double totalTax;
 	private double totalTransaction;
 	
@@ -64,14 +64,14 @@ public class Report
 	/**
 	 * @return the subReports
 	 */
-	public List<SubReport> getSubReports()
+	public List<T> getSubReports()
 	{
 		return subReports;
 	}
 	/**
 	 * @param subReports the subReports to set
 	 */
-	public void setSubReports(List<SubReport> subReports)
+	public void setSubReports(List<T> subReports)
 	{
 		this.subReports = subReports;
 	}

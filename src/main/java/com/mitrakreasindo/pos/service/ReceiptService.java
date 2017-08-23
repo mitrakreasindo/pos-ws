@@ -14,8 +14,8 @@ import com.mitrakreasindo.pos.entities.Receipt;
 public interface ReceiptService
 {
 
-	Receipt find(String merchantCode, String id);
+	Receipt find(String id);
 
-	List<Receipt> findAll(String merchantCode);
+	List<Receipt> findAll();
 	
 }

@@ -19,7 +19,7 @@ public class ProductServiceImpl extends BaseServiceImpl<Product> implements Prod
 	}
 
 	@Override
-	public HashMap<Integer, String> post(String merchantCode, Product t)
+	public HashMap<Integer, String> post(Product t)
 	{
 		MapSqlParameterSource param = new MapSqlParameterSource();
 		String validator = "";
@@ -82,11 +82,11 @@ public class ProductServiceImpl extends BaseServiceImpl<Product> implements Prod
 		param.addValue("promotion_id", validator);
 		param.addValue("all_products", t.getAllproducts());
 		param.addValue("manage_stock", t.getManagestock());
-		return executeProcedure("insert_product", merchantCode, param);
+		return executeProcedure("insert_product", param);
 	}
 
 	@Override
-	public HashMap<Integer, String> put(String merchantCode, String id, Product t)
+	public HashMap<Integer, String> put(String id, Product t)
 	{
   	MapSqlParameterSource param = new MapSqlParameterSource();
   	String validator = "";
@@ -144,15 +144,15 @@ public class ProductServiceImpl extends BaseServiceImpl<Product> implements Prod
     param.addValue("promotion_id", validator);
     param.addValue("all_products", t.getAllproducts());
     param.addValue("manage_stock", t.getManagestock());
-  	return executeProcedure("update_product", merchantCode, param);
+  	return executeProcedure("update_product", param);
 	}
 
 	@Override
-	public HashMap<Integer, String> delete(String merchantCode, String id)
+	public HashMap<Integer, String> delete(String id)
 	{
 		MapSqlParameterSource param = new MapSqlParameterSource();
 		param.addValue("product_id", id);
-		return executeProcedure("delete_product", merchantCode, param);
+		return executeProcedure("delete_product", param);
 	}
 
 }

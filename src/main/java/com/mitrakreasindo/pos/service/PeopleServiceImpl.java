@@ -25,7 +25,7 @@ public class PeopleServiceImpl extends BaseServiceImpl<People> implements People
 	}
 
 	@Override
-	public HashMap<Integer, String> post(String merchantCode, People t)
+	public HashMap<Integer, String> post(People t)
 	{
 		MapSqlParameterSource param = new MapSqlParameterSource();
 		param.addValue("person_id", t.getId());
@@ -51,11 +51,11 @@ public class PeopleServiceImpl extends BaseServiceImpl<People> implements People
     {
       //return 
     }
-		return executeProcedure("insert_user", merchantCode, param);
+		return executeProcedure("insert_user", param);
 	}
 
 	@Override
-	public HashMap<Integer, String> put(String merchantCode, String id, People t)
+	public HashMap<Integer, String> put(String id, People t)
 	{
 		MapSqlParameterSource param = new MapSqlParameterSource();
 		param.addValue("person_id", t.getId());
@@ -86,31 +86,31 @@ public class PeopleServiceImpl extends BaseServiceImpl<People> implements People
     {
       //return 
     }
-		return executeProcedure("update_user", merchantCode, param);
+		return executeProcedure("update_user", param);
 	}
 
 	@Override
-	public HashMap<Integer, String> delete(String merchantCode, String id)
+	public HashMap<Integer, String> delete(String id)
 	{
 		MapSqlParameterSource param = new MapSqlParameterSource();
 		param.addValue("person_id", id);
 		
-		return executeProcedure("delete_user", merchantCode, param);
+		return executeProcedure("delete_user", param);
 	}
 
 	@Override
-	public List<People> findPeopleOnSales(String merchantCode)
+	public List<People> findPeopleOnSales()
 	{
 		List<People> peoples = new ArrayList<>();
 		Query query = entityManager.createNativeQuery(
-				"SELECT * FROM " + merchantCode + ".people as p, " + merchantCode + ".sales as s WHERE p.id = s.person",
+				"SELECT * FROM people as p, sales as s WHERE p.id = s.person",
 				People.class);
 		return peoples = query.getResultList();
 	}
 
 	
 	@Override
-	public HashMap<Integer, String> login(String merchantCode, Login login)
+	public HashMap<Integer, String> login(Login login)
 	{
 	
 		MapSqlParameterSource param = new MapSqlParameterSource();
@@ -125,25 +125,25 @@ public class PeopleServiceImpl extends BaseServiceImpl<People> implements People
     {
       e.printStackTrace();
     }
-		return executeProcedure("login", merchantCode, param);
+		return executeProcedure("login", param);
 	}
 
 
 	@Override
-	public List<People> findPeopleOnViewSales(String merchantCode)
+	public List<People> findPeopleOnViewSales()
 	{
 		List<People> peoples = new ArrayList<>();
 		Query query = entityManager.createNativeQuery(
-				"SELECT * FROM " + merchantCode + ".people as p, " + merchantCode + ".viewsales as s WHERE p.id = s.person",
+				"SELECT * FROM people as p, viewsales as s WHERE p.id = s.person",
 				People.class);
 		return peoples = query.getResultList();
 	}
 
 	@Override
-	public List<String> findPeopleIdOnViewSales(String merchantCode, Timestamp fromDate, Timestamp toDate)
+	public List<String> findPeopleIdOnViewSales(Timestamp fromDate, Timestamp toDate)
 	{
 		Query query = entityManager.createNativeQuery(
-				"SELECT DISTINCT p.id FROM " + merchantCode + ".people as p, " + merchantCode + ".viewsales as s WHERE p.id = s.person AND s.datenew between '"+fromDate.toString()+"' AND '"+toDate.toString()+"'");
+				"SELECT DISTINCT p.id FROM people as p, viewsales as s WHERE p.id = s.person AND s.datenew between '"+fromDate.toString()+"' AND '"+toDate.toString()+"'");
 		return query.getResultList();
 	}
 

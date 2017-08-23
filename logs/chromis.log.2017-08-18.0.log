@@ -5770,3 +5770,8 @@
 2017-08-18 17:45:06 [http-nio-8082-exec-1] DEBUG org.hibernate.SQL - Select * from merchants where code = 'public'
 2017-08-18 17:45:07 [http-nio-8082-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Null ModelAndView returned to DispatcherServlet with name 'dispatcherServlet': assuming HandlerAdapter completed request handling
 2017-08-18 17:45:07 [http-nio-8082-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Successfully completed request
+2017-08-18 17:50:49 [RMI TCP Connection(2)-127.0.0.1] INFO  o.s.b.a.SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin - Application shutdown requested.
+2017-08-18 17:50:49 [RMI TCP Connection(2)-127.0.0.1] INFO  o.s.b.c.e.AnnotationConfigEmbeddedWebApplicationContext - Closing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@53aad5d5: startup date [Fri Aug 18 17:44:50 WIB 2017]; root of context hierarchy
+2017-08-18 17:50:49 [RMI TCP Connection(2)-127.0.0.1] INFO  o.s.c.s.DefaultLifecycleProcessor - Stopping beans in phase 2147483647
+2017-08-18 17:50:49 [RMI TCP Connection(2)-127.0.0.1] INFO  o.s.j.e.a.AnnotationMBeanExporter - Unregistering JMX-exposed beans on shutdown
+2017-08-18 17:50:49 [RMI TCP Connection(2)-127.0.0.1] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'

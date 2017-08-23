@@ -30,7 +30,7 @@ public class TaxServiceImpl extends BaseServiceImpl<Tax> implements TaxService
 	}
 
 	@Override
-	public HashMap<Integer, String> post(String merchantCode, Tax t)
+	public HashMap<Integer, String> post(Tax t)
 	{
 		MapSqlParameterSource param = new MapSqlParameterSource();
 		param.addValue("tax_id", GeneralFunction.checkNullString(t.getId()));
@@ -38,12 +38,12 @@ public class TaxServiceImpl extends BaseServiceImpl<Tax> implements TaxService
     param.addValue("taxcat_id", GeneralFunction.checkNullString(t.getCategory().getId()));
     param.addValue("tax_rate", t.getRate());
     
-		return executeProcedure("insert_taxes_and_taxcategories", merchantCode, param);
+		return executeProcedure("insert_taxes_and_taxcategories", param);
 	}
 
 	
 	@Override
-	public HashMap<Integer, String> put(String merchantCode, String id, Tax t)
+	public HashMap<Integer, String> put(String id, Tax t)
 	{
 		MapSqlParameterSource param = new MapSqlParameterSource();
 		param.addValue("tax_id", GeneralFunction.checkNullString(t.getId()));
@@ -51,17 +51,17 @@ public class TaxServiceImpl extends BaseServiceImpl<Tax> implements TaxService
     param.addValue("taxcat_id", GeneralFunction.checkNullString(t.getCategory().getId()));
     param.addValue("tax_rate", t.getRate());
     
-		return executeProcedure("update_taxes_and_taxcategories", merchantCode, param);
+		return executeProcedure("update_taxes_and_taxcategories", param);
 	}
 
 	
 	@Override
-	public HashMap<Integer, String> delete(String merchantCode, String id)
+	public HashMap<Integer, String> delete(String id)
 	{
 		MapSqlParameterSource param = new MapSqlParameterSource();
 		param.addValue("tax_id", id);
     
-		return executeProcedure("delete_taxes_and_taxcategories", merchantCode, param);
+		return executeProcedure("delete_taxes_and_taxcategories", param);
 	}
 
 }

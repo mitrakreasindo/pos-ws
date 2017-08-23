@@ -24,7 +24,7 @@ public class RoleServiceImpl extends BaseServiceImpl<Role> implements RoleServic
 	}
 
   @Override
-  public HashMap<Integer, String> post(String merchantCode, Role role)
+  public HashMap<Integer, String> post(Role role)
   {
     MapSqlParameterSource param = new MapSqlParameterSource();
     param.addValue("role_id", role.getId());
@@ -32,11 +32,11 @@ public class RoleServiceImpl extends BaseServiceImpl<Role> implements RoleServic
     param.addValue("permission_lists", role.getPermissions());
     param.addValue("rights_level", role.getRightslevel());
         
-    return executeProcedure("insert_role", merchantCode, param);
+    return executeProcedure("insert_role", param);
   }
   
   @Override
-  public HashMap<Integer, String> put(String merchantCode, String id, Role role)
+  public HashMap<Integer, String> put(String id, Role role)
   {
   	MapSqlParameterSource param = new MapSqlParameterSource();
     param.addValue("role_id", role.getId());
@@ -44,16 +44,16 @@ public class RoleServiceImpl extends BaseServiceImpl<Role> implements RoleServic
     param.addValue("permission_lists", role.getPermissions());
     param.addValue("rights_level", role.getRightslevel());
         
-    return executeProcedure("update_role", merchantCode, param);
+    return executeProcedure("update_role", param);
   }
   
   @Override
-  public HashMap<Integer, String> delete(String merchantCode, String id)
+  public HashMap<Integer, String> delete(String id)
   {
   	MapSqlParameterSource param = new MapSqlParameterSource();
     param.addValue("role_id", id);
         
-    return executeProcedure("delete_role", merchantCode, param);
+    return executeProcedure("delete_role", param);
   }
 
 }

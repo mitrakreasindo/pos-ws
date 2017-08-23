@@ -27,22 +27,22 @@ public class ViewSalesItemController
 	@Autowired
 	private ViewSalesItemService service;
 	
-	@GetMapping(value="/{merchantCode}/salesitems/{id}")
-  public ViewSalesItem find(@PathVariable("merchantCode") String merchantCode, @PathVariable("id") String id)
+	@GetMapping(value="/salesitems/{id}")
+  public ViewSalesItem find(@PathVariable("id") String id)
   {
-  	return service.find(merchantCode, id);
+  	return service.find(id);
   }
   
-  @GetMapping(value="/{merchantCode}/salesitems")
-  public List<ViewSalesItem> findAll(@PathVariable("merchantCode") String merchantCode)
+  @GetMapping(value="/salesitems")
+  public List<ViewSalesItem> findAll()
   {
-  	return service.findAll(merchantCode);
+  	return service.findAll();
   }
   
-  @GetMapping(value="/{merchantCode}/{salesid}/salesitems")
-  public List<ViewSalesItem> findAll(@PathVariable("merchantCode") String merchantCode, @PathVariable("salesid") String salesid)
+  @GetMapping(value="/{salesid}/salesitems")
+  public List<ViewSalesItem> findAll(@PathVariable("salesid") String salesid)
   {
-  	return service.findAll(merchantCode, salesid);
+  	return service.findAll(salesid);
   }
 	
 }

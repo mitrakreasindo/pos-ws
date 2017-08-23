@@ -14,10 +14,10 @@ import com.mitrakreasindo.pos.entities.MerchantCategory;
 public interface MerchantCategoryService
 {
 
-	List<MerchantCategory> findAll(String merchantCode);
+	List<MerchantCategory> findAll();
 	
-	List<MerchantCategory> findName(String merchantCode);
+	List<MerchantCategory> findName();
 	
-	List<MerchantCategory> findSub(String merchantCode, String name);
+	List<MerchantCategory> findSub(String name);
 	
 }

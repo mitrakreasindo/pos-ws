@@ -12,7 +12,6 @@ import javax.persistence.Table;
 import org.springframework.stereotype.Service;
 
 import com.mitrakreasindo.pos.core.BaseServiceImpl;
-import com.mitrakreasindo.pos.entities.ViewSale;
 import com.mitrakreasindo.pos.entities.ViewSalesItem;
 
 /**
@@ -31,11 +30,11 @@ public class ViewSalesItemServiceImpl extends BaseServiceImpl<ViewSalesItem> imp
 
 	
 	@Override
-	public List<ViewSalesItem> findAll(String merchantCode, String salesId)
+	public List<ViewSalesItem> findAll(String salesId)
 	{
 		try
     {
-      Query q = entityManager.createNativeQuery("SELECT * FROM " + merchantCode + "." + t.getAnnotation(Table.class).name() + " where sales_id = '" + salesId + "' and sflag = true", ViewSalesItem.class);
+      Query q = entityManager.createNativeQuery("SELECT * FROM " + t.getAnnotation(Table.class).name() + " where sales_id = '" + salesId + "' and sflag = true", ViewSalesItem.class);
       return q.getResultList();
     }
     catch (Exception e)
@@ -45,12 +44,12 @@ public class ViewSalesItemServiceImpl extends BaseServiceImpl<ViewSalesItem> imp
 	}
 	
 	@Override
-	public List<ViewSalesItem> findAllByCategoryId(String merchantCode, String categoryId, Timestamp fromDate,
+	public List<ViewSalesItem> findAllByCategoryId(String categoryId, Timestamp fromDate,
 			Timestamp toDate)
 	{
 		Query q = entityManager.createNativeQuery(""
-				+ "select si.* from "+merchantCode+".categories as c, "+merchantCode+".products as p, "
-				+merchantCode+".viewsales as s, "+merchantCode+".viewsalesitems as si where si.sales_id = s.id "
+				+ "select si.* from categories as c, products as p, "
+				+"viewsales as s, viewsalesitems as si where si.sales_id = s.id "
 						+ "and p.id = si.product and c.id = p.category and s.datenew between '"+fromDate.toString()+"' "
 								+ "AND '"+toDate.toString()+"' and c.id = '"+categoryId+"'", ViewSalesItem.class);
 		return q.getResultList();

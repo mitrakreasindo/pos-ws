@@ -14,8 +14,8 @@ import com.mitrakreasindo.pos.entities.ViewUnPaidTrans;
 public interface ViewUnPaidTransService
 {
 
-	ViewUnPaidTrans find(String merchantCode, String id);
+	ViewUnPaidTrans find(String id);
 
-	List<ViewUnPaidTrans> findAll(String merchantCode);
+	List<ViewUnPaidTrans> findAll();
 	
 }

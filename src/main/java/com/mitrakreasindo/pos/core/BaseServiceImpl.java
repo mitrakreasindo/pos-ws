@@ -66,11 +66,11 @@ public abstract class BaseServiceImpl<T>
     return result;
   }
   
-  public T find(String merchantCode, String id)
+  public T find(String id)
   {
     try
     {
-      Query q = entityManager.createNativeQuery("SELECT * FROM " + merchantCode + "." + t.getAnnotation(Table.class).name() + " where id = '" + id + "' and sflag = true", t);
+      Query q = entityManager.createNativeQuery("SELECT * FROM " + t.getAnnotation(Table.class).name() + " where id = '" + id + "' and sflag = true", t);
       return (T) q.getSingleResult();
     }
     catch (Exception e)
@@ -79,11 +79,11 @@ public abstract class BaseServiceImpl<T>
     }
   }
 
-  public List<T> findAll(String merchantCode)
+  public List<T> findAll()
   {
     try
     {
-      Query q = entityManager.createNativeQuery("SELECT * FROM " + merchantCode + "." + t.getAnnotation(Table.class).name() + " where sflag = true", t);
+    	Query q = entityManager.createNativeQuery("SELECT * FROM " + t.getAnnotation(Table.class).name() + " where sflag = true", t);
       return q.getResultList();
     }
     catch (Exception e)
@@ -92,11 +92,11 @@ public abstract class BaseServiceImpl<T>
     }
   }
 
-  public int count(String merchantCode)
+  public int count()
   {
     try
     {
-      Query q = entityManager.createNativeQuery("SELECT count(id) FROM " + merchantCode + "."+t.getAnnotation(Table.class).name() + " where sflag = true");
+      Query q = entityManager.createNativeQuery("SELECT count(id) FROM " +t.getAnnotation(Table.class).name() + " where sflag = true");
       BigInteger result = (BigInteger)q.getSingleResult();
       return result.intValue();
     }

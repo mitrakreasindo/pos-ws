@@ -32,9 +32,9 @@ public class SalesItemServiceImpl extends BaseServiceImpl<SalesItem> implements 
 
 
 	@Override
-	public List<SalesItem> findAllBySalesId(String merchantCode, String salesId)
+	public List<SalesItem> findAllBySalesId(String salesId)
 	{
-		Query q = entityManager.createNativeQuery("SELECT * FROM "+merchantCode+"."+SalesItem.class.getAnnotation(Table.class).name()+"  WHERE sales_id = '"+salesId+"'", SalesItem.class);
+		Query q = entityManager.createNativeQuery("SELECT * FROM "+SalesItem.class.getAnnotation(Table.class).name()+"  WHERE sales_id = '"+salesId+"'", SalesItem.class);
 		
 		return q.getResultList();
 	}

@@ -6,11 +6,10 @@ package com.mitrakreasindo.pos.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mitrakreasindo.pos.service.Money;
+import com.mitrakreasindo.pos.entities.Money;
 import com.mitrakreasindo.pos.service.MoneyService;
 
 /**
@@ -25,16 +24,16 @@ public class MoneyController
 	@Autowired
 	private MoneyService service;
 
-	@GetMapping(value="{merchantCode}/cost")
-	public Money getCosh(@PathVariable("merchantCode") String merchantCode)
+	@GetMapping(value="/cost")
+	public Money getCosh()
 	{
-		return service.getCostInfo(merchantCode);		
+		return service.getCostInfo();		
 	}
 	
-	@GetMapping(value="{merchantCode}/revenue")
-	public Money getRevenue(@PathVariable("merchantCode") String merchantCode)
+	@GetMapping(value="/revenue")
+	public Money getRevenue()
 	{
-		return service.getRevenueInfo(merchantCode);
+		return service.getRevenueInfo();
 	}
 	
 }

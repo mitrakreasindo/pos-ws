@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 
 /**
@@ -26,40 +27,40 @@ public abstract class SimpleController<T, ID extends Serializable, Service exten
   @Autowired
   protected Service service;
   
-  @PostMapping(value="/{merchantCode}")
-  public HashMap<Integer, String> post(@PathVariable("merchantCode") String merchantCode, @RequestBody T t)
+  @PostMapping
+  public HashMap<Integer, String> post(@RequestBody T t)
   {
-  	return service.post(merchantCode, t);
+  	return service.post(t);
   }
   
-  @PutMapping(value="/{merchantCode}/{id}")
-  public HashMap<Integer, String> put(@PathVariable("merchantCode") String merchantCode, @PathVariable("id") String id, @RequestBody T t)
+  @PutMapping(value="/{id}")
+  public HashMap<Integer, String> put(@PathVariable("id") String id, @RequestBody T t)
   {
-  	return service.put(merchantCode, id, t);
+  	return service.put(id, t);
   }
   
-  @DeleteMapping(value="/{merchantCode}/{id}")
-  public HashMap<Integer, String> delete(@PathVariable("merchantCode") String merchantCode, @PathVariable("id") String id)
+  @DeleteMapping(value="/{id}")
+  public HashMap<Integer, String> delete(@PathVariable("id") String id)
   {
-  	return service.delete(merchantCode, id);
+  	return service.delete(id);
   }
   
-  @GetMapping(value="/{merchantCode}/{id}")
-  public T find(@PathVariable("merchantCode") String merchantCode, @PathVariable("id") String id)
+  @GetMapping(value="/{id}")
+  public T find(@PathVariable("id") String id)
   {
-  	return (T) service.find(merchantCode, id);
+  	return (T) service.find(id);
   }
   
-  @GetMapping(value="/{merchantCode}")
-  public List<T> findAll(@PathVariable("merchantCode") String merchantCode)
+  @GetMapping
+  public List<T> findAll()
   {
-  	return service.findAll(merchantCode);
+  	return service.findAll();
   }
   
-  @GetMapping(value="/{merchantCode}/count",produces=MediaType.TEXT_PLAIN_VALUE)
-  public int count(@PathVariable("merchantCode") String merchantCode)
+  @GetMapping(value="/count",produces=MediaType.TEXT_PLAIN_VALUE)
+  public int count()
   {
-  	return service.count(merchantCode);
+  	return service.count();
   }
   
 }

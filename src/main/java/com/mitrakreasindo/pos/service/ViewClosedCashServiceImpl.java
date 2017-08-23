@@ -11,8 +11,6 @@ import javax.persistence.Query;
 import javax.persistence.Table;
 
 import org.springframework.stereotype.Service;
-
-import com.mitrakreasindo.pos.core.BaseServiceImpl;
 import com.mitrakreasindo.pos.entities.ViewClosedCash;
 
 /**
@@ -29,23 +27,23 @@ public class ViewClosedCashServiceImpl implements ViewClosedCashService
 
 
 	@Override
-	public ViewClosedCash find(String merchantCode, String receiptId)
+	public ViewClosedCash find(String receiptId)
 	{
-		Query q = entityManager.createNativeQuery("SELECT * FROM " + merchantCode + "." + ViewClosedCash.class.getAnnotation(Table.class).name() + " where receipt_id = '" + receiptId + "'", ViewClosedCash.class);
+		Query q = entityManager.createNativeQuery("SELECT * FROM " + ViewClosedCash.class.getAnnotation(Table.class).name() + " where receipt_id = '" + receiptId + "'", ViewClosedCash.class);
     return (ViewClosedCash) q.getSingleResult();
 	}
 	
 	@Override
-	public List<ViewClosedCash> findByMoney(String codeMerchant, String moneyId)
+	public List<ViewClosedCash> findByMoney(String moneyId)
 	{
-		Query q = entityManager.createNativeQuery("select * from "+codeMerchant+"."+ViewClosedCash.class.getAnnotation(Table.class).name()+" where money = '"+moneyId+"'", ViewClosedCash.class);
+		Query q = entityManager.createNativeQuery("select * from "+ViewClosedCash.class.getAnnotation(Table.class).name()+" where money = '"+moneyId+"'", ViewClosedCash.class);
 		return q.getResultList();
 	}
 
 	@Override
-	public List<ViewClosedCash> findAll(String merchantCode)
+	public List<ViewClosedCash> findAll()
 	{
-		Query q = entityManager.createNativeQuery("select * from "+merchantCode+"."+ViewClosedCash.class.getAnnotation(Table.class).name(), ViewClosedCash.class);
+		Query q = entityManager.createNativeQuery("select * from "+ViewClosedCash.class.getAnnotation(Table.class).name(), ViewClosedCash.class);
 		return q.getResultList();
 	}
 

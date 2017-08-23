@@ -16,8 +16,12 @@ import com.mitrakreasindo.pos.entities.Category;
 public interface CategoryService extends BaseService<Category>
 {
   
-	List<Category> findParentCategoriesFromSalesItem(String merchantCode, Timestamp fromDate, Timestamp toDate);
+	List<Category> findCategoriesFromSalesItem(Timestamp fromDate, Timestamp toDate);
 	
-	List<Category> findSubCategoriesFromSalesItem(String merchantCode, Timestamp fromDate, Timestamp toDate);
+	List<Category> findParentCategoriesFromSalesItem(Timestamp fromDate, Timestamp toDate);
+	
+	List<Category> findSubCategoriesFromSalesItem(Timestamp fromDate, Timestamp toDate);
+	
+	List<Category> findSubCategoriesFromSalesItemByCategoryId(String categoryId, Timestamp fromDate, Timestamp toDate);
 	
 }

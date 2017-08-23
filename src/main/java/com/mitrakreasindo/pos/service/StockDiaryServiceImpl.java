@@ -20,7 +20,7 @@ public class StockDiaryServiceImpl extends BaseServiceImpl<StockDiary> implement
 	}
 
 	@Override
-	public HashMap<Integer, String> post(String merchantCode, StockDiary stockDiary)
+	public HashMap<Integer, String> post(StockDiary stockDiary)
 	{
 		MapSqlParameterSource param = new MapSqlParameterSource();
 		String validator = "";
@@ -44,7 +44,7 @@ public class StockDiaryServiceImpl extends BaseServiceImpl<StockDiary> implement
     param.addValue("price", stockDiary.getPrice());
     param.addValue("app_user", GeneralFunction.checkNullString(stockDiary.getAppuser()));
 		
-    return executeProcedure("insert_stockdiary", merchantCode, param);
+    return executeProcedure("insert_stockdiary", param);
 	}
 
 }

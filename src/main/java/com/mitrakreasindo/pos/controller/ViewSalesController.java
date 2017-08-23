@@ -27,16 +27,16 @@ public class ViewSalesController
 	@Autowired
 	private ViewSalesService service;
 	
-	@GetMapping(value="/{merchantCode}/{id}")
-  public ViewSale find(@PathVariable("merchantCode") String merchantCode, @PathVariable("id") String id)
+	@GetMapping(value="/{id}")
+  public ViewSale find(@PathVariable("id") String id)
   {
-  	return service.find(merchantCode, id);
+  	return service.find(id);
   }
   
-  @GetMapping(value="/{merchantCode}")
-  public List<ViewSale> findAll(@PathVariable("merchantCode") String merchantCode)
+  @GetMapping
+  public List<ViewSale> findAll()
   {
-  	return service.findAll(merchantCode);
+  	return service.findAll();
   }
 	
 }

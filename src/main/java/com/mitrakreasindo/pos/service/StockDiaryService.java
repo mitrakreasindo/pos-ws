@@ -7,12 +7,12 @@ import com.mitrakreasindo.pos.entities.StockDiary;
 
 public interface StockDiaryService
 {
-	HashMap<Integer, String> post(String merchantCode, StockDiary stockDiary);
+	HashMap<Integer, String> post(StockDiary stockDiary);
 	
-	StockDiary find(String merchantCode, String id);
+	StockDiary find(String id);
   
-  List<StockDiary > findAll(String merchantCode);
+  List<StockDiary > findAll();
   
-  int count(String merchantCode);
+  int count();
   
 }

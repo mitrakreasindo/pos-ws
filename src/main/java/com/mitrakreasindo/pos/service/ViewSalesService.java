@@ -15,12 +15,12 @@ import com.mitrakreasindo.pos.entities.ViewSale;
 public interface ViewSalesService
 {
 
-	ViewSale find(String merchantCode, String id);
+	ViewSale find(String id);
 
-	List<ViewSale> findAll(String merchantCode);
+	List<ViewSale> findAll();
 	
-	List<ViewSale> findAllByPeopleId(String merchantCode, String personId);
+	List<ViewSale> findAllByPeopleId(String personId);
 	
-	List<ViewSale> findAllByPeopleId(String merchantCode, String personId, Timestamp fromDate, Timestamp toDate);
+	List<ViewSale> findAllByPeopleId(String personId, Timestamp fromDate, Timestamp toDate);
 	
 }

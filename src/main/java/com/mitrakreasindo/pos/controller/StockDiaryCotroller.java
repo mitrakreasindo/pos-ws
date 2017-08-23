@@ -23,34 +23,34 @@ import com.mitrakreasindo.pos.service.StockDiaryService;
  *
  */
 @RestController
-@RequestMapping(value = "/api/stockcurrents", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/stocks", produces = MediaType.APPLICATION_JSON_VALUE)
 public class StockDiaryCotroller
 {
 	
 	@Autowired
 	private StockDiaryService service;
 	
-	@PostMapping(value="/{merchantCode}")
-  public HashMap<Integer, String> post(@PathVariable("merchantCode") String merchantCode, @RequestBody StockDiary stockDiary)
+	@PostMapping(value="/diary")
+  public HashMap<Integer, String> post(@RequestBody StockDiary stockDiary)
   {
-  	return service.post(merchantCode, stockDiary);
+  	return service.post(stockDiary);
   }
 	
-	@GetMapping(value="/{merchantCode}/{id}")
-  public StockDiary find(@PathVariable("merchantCode") String merchantCode, @PathVariable("id") String id)
+	@GetMapping(value="/diary/{id}")
+  public StockDiary find(@PathVariable("id") String id)
   {
-  	return service.find(merchantCode, id);
+  	return service.find(id);
   }
   
-  @GetMapping(value="/{merchantCode}")
-  public List<StockDiary> findAll(@PathVariable("merchantCode") String merchantCode)
+  @GetMapping(value="/diary")
+  public List<StockDiary> findAll()
   {
-  	return service.findAll(merchantCode);
+  	return service.findAll();
   }
   
-  @GetMapping(value="/{merchantCode}/count",produces=MediaType.TEXT_PLAIN_VALUE)
-  public int count(@PathVariable("merchantCode") String merchantCode)
+  @GetMapping(value="/diary/count",produces=MediaType.TEXT_PLAIN_VALUE)
+  public int count()
   {
-  	return service.count(merchantCode);
+  	return service.count();
   }
 }

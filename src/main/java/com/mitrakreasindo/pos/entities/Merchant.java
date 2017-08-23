@@ -18,7 +18,7 @@ import javax.validation.constraints.NotNull;
  *
  */
 @Entity
-@Table(name = "merchants")
+@Table(name = "merchants", schema = "public")
 public class Merchant implements Serializable
 {
 

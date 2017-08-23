@@ -37,9 +37,8 @@ public class MerchantController
 	@Autowired
 	private MerchantCategoryService merchantCategoryService;
 
-	@PostMapping(value = "/{merchantCode}")
-	public HashMap<Integer, String> post(@PathVariable("merchantCode") String merchantCode,
-			@RequestBody MerchantRegistration merchantRegistration)
+	@PostMapping
+	public HashMap<Integer, String> post(@RequestBody MerchantRegistration merchantRegistration)
 	{
 		HashMap<Integer, String> result = new HashMap<Integer, String>();
 
@@ -49,10 +48,16 @@ public class MerchantController
 		String username = merchantRegistration.getMerchant().getCode() + "_ADMIN";
 		merchantRegistration.getPeople().setApppassword(generatedpassword);
 		merchantRegistration.getPeople().setName(username);
+		
+		if (merchantRegistration.getMerchant().getEmail() == null)
+		{
+			// set default email
+			merchantRegistration.getMerchant().setEmail(merchantRegistration.getPeople().getEmail());
+		}
 
 		// Exec sp
 		HashMap<Integer, String> spresult = new HashMap<Integer, String>();
-		spresult = merchantService.post(merchantCode, merchantRegistration);
+		spresult = merchantService.post(merchantRegistration);
 
 		// If succes or return = 0 than send email
 		Map.Entry<Integer, String> entry = spresult.entrySet().iterator().next();
@@ -71,22 +76,22 @@ public class MerchantController
 	}
 	
 	
-	@GetMapping(value = "/{merchantCode}/categories")
-	public List<MerchantCategory> findAllMerchantCategory(@PathVariable("merchantCode") String merchantCode)
+	@GetMapping(value = "/categories")
+	public List<MerchantCategory> findAllMerchantCategory()
 	{
-		return merchantCategoryService.findAll(merchantCode);
+		return merchantCategoryService.findAll();
 	}
 	
-	@GetMapping(value = "/{merchantCode}/categories/name")
-	public List<MerchantCategory> findAllMerchantCategoryName(@PathVariable("merchantCode") String merchantCode)
+	@GetMapping(value = "/categories/name")
+	public List<MerchantCategory> findAllMerchantCategoryName()
 	{
-		return merchantCategoryService.findName(merchantCode);
+		return merchantCategoryService.findName();
 	}
 	
-	@GetMapping(value = "/{merchantCode}/categories/subname/{name}")
-	public List<MerchantCategory> findAllMerchantCategorySubName(@PathVariable("merchantCode") String merchantCode, @PathVariable("name") String name)
+	@GetMapping(value = "/categories/subname/{name}")
+	public List<MerchantCategory> findAllMerchantCategorySubName(@PathVariable("name") String name)
 	{
-		return merchantCategoryService.findSub(merchantCode, name);
+		return merchantCategoryService.findSub(name);
 	}
 
 }

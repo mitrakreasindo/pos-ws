@@ -9,8 +9,8 @@ import com.mitrakreasindo.pos.entities.SalesPack;
 public interface SalesService
 {
 	
-	HashMap<Integer, String> post(String codeMerchant, SalesPack salesPack);
+	HashMap<Integer, String> post(SalesPack salesPack);
 	
-	List<Sale> findSalesByPeopleId(String merchantCode, String peopleId);
+	List<Sale> findSalesByPeopleId(String peopleId);
 	
 }

@@ -12,6 +12,6 @@ import java.util.HashMap;
 public interface PaymentService
 {
 
-	HashMap<Integer, String> update(String merchantCode, String receiptId, float tendered);
+	HashMap<Integer, String> update(String receiptId, float tendered);
 	
 }

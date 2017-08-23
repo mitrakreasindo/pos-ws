@@ -3,6 +3,7 @@
  */
 package com.mitrakreasindo.pos.service;
 
+import com.mitrakreasindo.pos.entities.Money;
 
 /**
  * @author miftakhul
@@ -11,25 +12,25 @@ package com.mitrakreasindo.pos.service;
 public interface MoneyService
 {
 
-	Money getCostInfo(String merchantCode);
+	Money getCostInfo();
 	
-	Money getRevenueInfo(String merchantCode);
+	Money getRevenueInfo();
 	
-	double getCoshToDay(String merchantCode);
+	double getCoshToDay();
 	
-	double getCoshThisWeek(String merchantCode);
+	double getCoshThisWeek();
 	
-	double getCoshThisMonth(String merchantCode);
+	double getCoshThisMonth();
 	
-	double getCoshThisYear(String merchantCode);
+	double getCoshThisYear();
 	
-	double getRevenueToDay(String merchantCode);
+	double getRevenueToDay();
 	
-	double getRevenueThisWeek(String merchantCode);
+	double getRevenueThisWeek();
 	
-	double getRevenueThisMonth(String merchantCode);
+	double getRevenueThisMonth();
 	
-	double getRevenueThisYear(String merchantCode);
+	double getRevenueThisYear();
 	
 	
 }

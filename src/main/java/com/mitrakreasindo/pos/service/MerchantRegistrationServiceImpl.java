@@ -19,7 +19,7 @@ public class MerchantRegistrationServiceImpl extends BaseServiceImpl<MerchantReg
 	}
 
 	@Override
-	public HashMap<Integer, String> post(String merchantCode, MerchantRegistration t)
+	public HashMap<Integer, String> post(MerchantRegistration t)
 	{
 		MapSqlParameterSource param = new MapSqlParameterSource();
 		param.addValue("merchant_code", t.getMerchant().getCode());
@@ -51,7 +51,7 @@ public class MerchantRegistrationServiceImpl extends BaseServiceImpl<MerchantReg
       //return 
     }
 		
-		return executeProcedure("insert_merchant", merchantCode, param);
+		return executeProcedure("insert_merchant", param);
 	}
 
 

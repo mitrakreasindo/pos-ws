@@ -28,14 +28,14 @@ public class ClosedCashServiceImpl extends BaseServiceImpl<ClosedCash> implement
 	}
 
 	@Override
-	public HashMap<Integer, String> post(String merchantCode, ClosedCash closedCash)
+	public HashMap<Integer, String> post(ClosedCash closedCash)
 	{
 		MapSqlParameterSource param = new MapSqlParameterSource();
 		param.addValue("money_id", closedCash.getMoney());
 		param.addValue("host_name", closedCash.getHost());
 		param.addValue("date_end", closedCash.getDateend());
 		
-		return executeProcedure("close_cash", merchantCode, param);
+		return executeProcedure("close_cash", param);
 	}
 
 }

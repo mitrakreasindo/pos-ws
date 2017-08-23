@@ -27,16 +27,16 @@ public class ReceiptController
 	@Autowired
 	private ReceiptService service;
 	
-	@GetMapping(value="/{merchantCode}/{id}")
-  public Receipt find(@PathVariable("merchantCode") String merchantCode, @PathVariable("id") String id)
+	@GetMapping(value="/{id}")
+  public Receipt find(@PathVariable("id") String id)
   {
-  	return service.find(merchantCode, id);
+  	return service.find(id);
   }
   
-  @GetMapping(value="/{merchantCode}")
-  public List<Receipt> findAll(@PathVariable("merchantCode") String merchantCode)
+  @GetMapping
+  public List<Receipt> findAll()
   {
-  	return service.findAll(merchantCode);
+  	return service.findAll();
   }
 	
 }

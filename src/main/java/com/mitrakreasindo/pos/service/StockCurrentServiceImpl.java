@@ -20,7 +20,7 @@ public class StockCurrentServiceImpl extends BaseServiceImpl<StockCurrent> imple
 	}
 
 	@Override
-	public HashMap<Integer, String> post(String merchantCode, StockCurrent stockCurrent)
+	public HashMap<Integer, String> post(StockCurrent stockCurrent)
 	{
 		MapSqlParameterSource param = new MapSqlParameterSource();
 		param.addValue("product_id", GeneralFunction.checkNullString(stockCurrent.getProduct()));
@@ -28,7 +28,7 @@ public class StockCurrentServiceImpl extends BaseServiceImpl<StockCurrent> imple
 		param.addValue("attributeset_instance_id", GeneralFunction.checkNullString(stockCurrent.getAttributesetinstance_id()));
 		param.addValue("product_units", stockCurrent.getUnits());
 		
-		return executeProcedure("update_stockcurrent", merchantCode, param);
+		return executeProcedure("update_stockcurrent", param);
 	}
 
 }

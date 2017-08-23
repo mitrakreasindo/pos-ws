@@ -5,8 +5,11 @@ package com.mitrakreasindo.pos.service;
 
 import java.sql.Timestamp;
 
+import com.mitrakreasindo.pos.entities.ReportSales;
+import com.mitrakreasindo.pos.entities.ReportSubCategorySub;
 import com.mitrakreasindo.pos.entities.Report;
 import com.mitrakreasindo.pos.entities.ReportCategory;
+import com.mitrakreasindo.pos.entities.ReportDate;
 
 /**
  * @author miftakhul
@@ -15,12 +18,17 @@ import com.mitrakreasindo.pos.entities.ReportCategory;
 public interface ReportService
 {
 	
-	Report multiUserReport(String merchantCode, Timestamp fromDate, Timestamp toDate);
+	ReportSales reportSales(String merchantCode, Timestamp fromDate, Timestamp toDate);
 	
-	ReportCategory reportByParentCategory(String merchantCode, Timestamp fromDate, Timestamp toDate);
+	ReportCategory reportByCategory(String merchantCode, Timestamp fromDate, Timestamp toDate);
 	
-	public byte[] multiUserByteReportPdf(String merchantCode, Timestamp fromDate, Timestamp toDate);
+	ReportDate<ReportSubCategorySub> reportBySubCategory(String merchantCode, Timestamp fromDate, Timestamp toDate);
 	
-	public byte[] singleUserByteReportPdfByParentCategory(String merchantCode, Timestamp fromDate, Timestamp toDate);
+	public byte[] byteReportPdfSales(String merchantCode, Timestamp fromDate, Timestamp toDate);
+	
+	public byte[] byteReportPdfByCategory(String merchantCode, Timestamp fromDate, Timestamp toDate);
+	
+	public byte[] byteReportPdfBySubCategory(String merchantCode, Timestamp fromDate, Timestamp toDate);
 	
 }
+	

@@ -7,7 +7,6 @@ import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,10 +26,10 @@ public class PaymentController
 	@Autowired
 	PaymentService service;
 	
-	@PutMapping(value = "/{merchantCode}")
-	public HashMap<Integer, String> update(@PathVariable("merchantCode") String merchantCode, @RequestParam("receiptId") String receiptId, @RequestParam("tendered_amount") float tenderAmount)
+	@PutMapping
+	public HashMap<Integer, String> update(@RequestParam("receiptId") String receiptId, @RequestParam("tendered_amount") float tenderAmount)
 	{
-		return service.update(merchantCode, receiptId, tenderAmount);
+		return service.update(receiptId, tenderAmount);
 	}
 	
 }

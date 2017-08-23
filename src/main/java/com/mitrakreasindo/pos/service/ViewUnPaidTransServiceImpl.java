@@ -25,11 +25,11 @@ public class ViewUnPaidTransServiceImpl implements ViewUnPaidTransService
 	@PersistenceContext
 	EntityManager entityManager;
 	
-	public ViewUnPaidTrans find(String merchantCode, String id)
+	public ViewUnPaidTrans find(String id)
   {
     try
     {
-      Query q = entityManager.createNativeQuery("SELECT * FROM " + merchantCode + "." + ViewUnPaidTrans.class.getAnnotation(Table.class).name() + " where receipt_id = '" + id + "'", ViewUnPaidTrans.class);
+      Query q = entityManager.createNativeQuery("SELECT * FROM " + ViewUnPaidTrans.class.getAnnotation(Table.class).name() + " where receipt_id = '" + id + "'", ViewUnPaidTrans.class);
       return (ViewUnPaidTrans) q.getSingleResult();
     }
     catch (Exception e)
@@ -38,11 +38,11 @@ public class ViewUnPaidTransServiceImpl implements ViewUnPaidTransService
     }
   }
 
-  public List<ViewUnPaidTrans> findAll(String merchantCode)
+  public List<ViewUnPaidTrans> findAll()
   {
     try
     {
-      Query q = entityManager.createNativeQuery("SELECT * FROM " + merchantCode + "." + ViewUnPaidTrans.class.getAnnotation(Table.class).name(), ViewUnPaidTrans.class);
+      Query q = entityManager.createNativeQuery("SELECT * FROM " + ViewUnPaidTrans.class.getAnnotation(Table.class).name(), ViewUnPaidTrans.class);
       return q.getResultList();
     }
     catch (Exception e)

@@ -34,7 +34,7 @@ public class CategoryServiceImpl extends BaseServiceImpl<Category> implements Ca
 	}
     
   @Override
-  public HashMap<Integer, String> post(String merchantCode, Category category)
+  public HashMap<Integer, String> post(Category category)
   {
     MapSqlParameterSource param = new MapSqlParameterSource();
     param.addValue("category_id", category.getId());
@@ -46,13 +46,13 @@ public class CategoryServiceImpl extends BaseServiceImpl<Category> implements Ca
     param.addValue("category_colour", category.getColour());
     param.addValue("category_order", category.getCatorder());
         
-    return executeProcedure("insert_category", merchantCode, param);
+    return executeProcedure("insert_category", param);
   }
 
 
   
   @Override
-  public HashMap<Integer, String> put(String merchantCode, String id, Category category)
+  public HashMap<Integer, String> put(String id, Category category)
   {
     MapSqlParameterSource param = new MapSqlParameterSource();
     param.addValue("category_id", category.getId());
@@ -64,38 +64,59 @@ public class CategoryServiceImpl extends BaseServiceImpl<Category> implements Ca
     param.addValue("category_colour", category.getColour());
     param.addValue("category_order", category.getCatorder());
         
-    return executeProcedure("update_category", merchantCode, param);
+    return executeProcedure("update_category", param);
   }
 
   
   @Override
-  public HashMap<Integer, String> delete(String merchantCode, String id)
+  public HashMap<Integer, String> delete(String id)
   {
     MapSqlParameterSource param = new MapSqlParameterSource();
     param.addValue("category_id", id);
     
-    return executeProcedure("delete_category", merchantCode, param);    
+    return executeProcedure("delete_category", param);    
   }
 
-  
-	@Override
-	public List<Category> findParentCategoriesFromSalesItem(String merchantCode, Timestamp fromDate, Timestamp toDate)
+  @Override
+	public List<Category> findCategoriesFromSalesItem(Timestamp fromDate, Timestamp toDate)
 	{
 		Query q = entityManager.createNativeQuery(""
-				+ "select c.* from "+merchantCode+".categories as c, "+merchantCode+".products as p, "
-				+merchantCode+".viewsales as s, "+merchantCode+".viewsalesitems as si where si.sales_id = s.id "
-						+ "and p.id = si.product and c.id = p.category and c.parentid is null and s.datenew between '"+fromDate.toString()+"' "
+				+ "select c.* from categories as c, products as p, "
+				+"viewsales as s, viewsalesitems as si where si.sales_id = s.id "
+						+ "and p.id = si.product and c.id = p.category and s.datenew between '"+fromDate.toString()+"' "
+								+ "AND '"+toDate.toString()+"' group by c.id", Category.class); 
+		return q.getResultList();
+	}
+  
+	@Override
+	public List<Category> findParentCategoriesFromSalesItem(Timestamp fromDate, Timestamp toDate)
+	{
+		Query q = entityManager.createNativeQuery(""
+				+ "select cP.* from categories as cP, categories as c, products as p, "
+				+"viewsales as s, viewsalesitems as si where si.sales_id = s.id "
+						+ "and p.id = si.product and c.id = p.category and c.parentid = cP.id and s.datenew between '"+fromDate.toString()+"' "
+								+ "AND '"+toDate.toString()+"' group by cP.id", Category.class); 
+		return q.getResultList();
+	}
+	
+	@Override
+	public List<Category> findSubCategoriesFromSalesItem( Timestamp fromDate, Timestamp toDate)
+	{
+		Query q = entityManager.createNativeQuery(""
+				+ "select c.* from categories as c, products as p, "
+				+"viewsales as s, viewsalesitems as si where si.sales_id = s.id "
+						+ "and p.id = si.product and c.id = p.category and c.parentid is not null and s.datenew between '"+fromDate.toString()+"' "
 								+ "AND '"+toDate.toString()+"' group by c.id", Category.class); 
 		return q.getResultList();
 	}
 	
 	@Override
-	public List<Category> findSubCategoriesFromSalesItem(String merchantCode, Timestamp fromDate, Timestamp toDate)
+	public List<Category> findSubCategoriesFromSalesItemByCategoryId(String categoryId, Timestamp fromDate, Timestamp toDate)
 	{
 		Query q = entityManager.createNativeQuery(""
-				+ "select c.* from "+merchantCode+".categories as c, "+merchantCode+".products as p, "
-				+merchantCode+".viewsales as s, "+merchantCode+".viewsalesitems as si where si.sales_id = s.id "
-						+ "and p.id = si.product and c.id = p.category and c.parentid is not null and s.datenew between '"+fromDate.toString()+"' "
+				+ "select c.* from categories as c, products as p, "
+				+"viewsales as s, viewsalesitems as si where si.sales_id = s.id "
+						+ "and p.id = si.product and c.id = p.category and c.parentid = '"+categoryId+"' and s.datenew between '"+fromDate.toString()+"' "
 								+ "AND '"+toDate.toString()+"' group by c.id", Category.class); 
 		return q.getResultList();
 	}
