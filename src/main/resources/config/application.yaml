@@ -6,12 +6,12 @@ spring:
 spring:
   profiles: dev
   datasource:
-    url: jdbc:postgresql://localhost:5432/chromispos
-    username: chromispos
-    password: toor
-#    url: jdbc:postgresql://192.168.1.40:5432/chromispos
+#    url: jdbc:postgresql://localhost:5432/chromispos
 #    username: chromispos
-#    password: chromispos
+#    password: toor
+    url: jdbc:postgresql://192.168.1.40:5432/chromispos
+    username: chromispos
+    password: chromispos
   jpa:
     hibernate:
       ddl-auto: none
@@ -27,10 +27,10 @@ logging:
         SQL: debug
       springframework:
         web: debug
-#  pattern:
-#    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
-#  file: logs/chromis.log
-#  config: classpath:config/logback.xml
+  pattern:
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  file: logs/chromis.log
+  config: classpath:config/logback.xml
   
   
   

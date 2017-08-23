@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -21,15 +23,27 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 public class TenantInterceptor extends HandlerInterceptorAdapter
 {
 
-	Logger log = Logger.getLogger(TenantContext.class);
-	
+	Logger log = Logger.getLogger(TenantContext.class);	
 	private static final String SCHEMA_HEADER = "merchantCode";
+	
+	@Autowired
+	private Environment env;
 	
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception
 	{
 		String schema = request.getHeader(SCHEMA_HEADER);
 		boolean schemaSet = false;
+		
+		if (env.getActiveProfiles()[0].toString().equals("dev")) 
+		{
+			if (request.getRequestURL().toString().contains("api/v2/api-docs") || request.getRequestURL().toString().contains("swagger"))
+			{
+				TenantContext.setCurrentSchema(TenantContext.defaultSchema);
+				schemaSet = true;
+				return schemaSet;
+			}
+		}
 		
 		if (StringUtils.isEmpty(schema))
 		{
@@ -42,7 +56,6 @@ public class TenantInterceptor extends HandlerInterceptorAdapter
 		{
 			TenantContext.setCurrentSchema(schema);
 			schemaSet = true;
-			log.info("Set current schema to "+schema);
 		}
 		
 		return schemaSet;
