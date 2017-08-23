@@ -18,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 
+import com.mitrakreasindo.pos.config.TenantContext;
+
 
 /**
  * @author miftakhul
@@ -39,24 +41,25 @@ public abstract class BaseServiceImpl<T>
     this.t = t;
   }
   
-  protected HashMap<Integer, String> executeProcedure(String spName, String schemaName, SqlParameterSource param)
-  {
-    SimpleJdbcCall call = new SimpleJdbcCall(dataSource);
-    call.withProcedureName(spName);
-    call.setSchemaName(schemaName);
-    
-    Map<String, Object> out = call.execute(param);
-    HashMap<Integer, String> result = new HashMap<Integer, String>();
-    
-    result.put(Integer.parseInt(out.get("retval").toString()), out.get("message").toString());
-    
-    return result;
-  }
+//  protected HashMap<Integer, String> executeProcedure(String spName, String schemaName, SqlParameterSource param)
+//  {
+//    SimpleJdbcCall call = new SimpleJdbcCall(dataSource);
+//    call.withProcedureName(spName);
+//    call.setSchemaName(schemaName);
+//    
+//    Map<String, Object> out = call.execute(param);
+//    HashMap<Integer, String> result = new HashMap<Integer, String>();
+//    
+//    result.put(Integer.parseInt(out.get("retval").toString()), out.get("message").toString());
+//    
+//    return result;
+//  }
  
   protected HashMap<Integer, String> executeProcedure(String spName, SqlParameterSource param)
   {
     SimpleJdbcCall call = new SimpleJdbcCall(dataSource);
     call.withProcedureName(spName);
+    call.setSchemaName(TenantContext.getCurrentSchema());
     
     Map<String, Object> out = call.execute(param);
     HashMap<Integer, String> result = new HashMap<Integer, String>();
