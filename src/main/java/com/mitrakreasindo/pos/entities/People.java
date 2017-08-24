@@ -15,6 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Type;
@@ -42,6 +43,8 @@ public class People implements Serializable
   private String name;
   @Column(name = "apppassword")
   private String apppassword;
+  @Transient
+  private String oldPassword;
   @Column(name = "card")
   private String card;
   @NotNull
@@ -114,7 +117,15 @@ public class People implements Serializable
   {
     this.apppassword = apppassword;
   }
-  public String getCard()
+	public String getOldPassword()
+	{
+		return oldPassword;
+	}
+	public void setOldPassword(String oldPassword)
+	{
+		this.oldPassword = oldPassword;
+	}
+	public String getCard()
   {
     return card;
   }

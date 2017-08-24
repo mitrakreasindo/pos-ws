@@ -60,17 +60,14 @@ public class PeopleServiceImpl extends BaseServiceImpl<People> implements People
 		MapSqlParameterSource param = new MapSqlParameterSource();
 		param.addValue("person_id", t.getId());
 		param.addValue("person_name", t.getName());
+		param.addValue("old_pass", t.getOldPassword());
 		param.addValue("person_full_name", t.getFullname());
 		param.addValue("person_id_type", t.getPersonalIdType());
 		param.addValue("person_id_number", t.getPersonalId());
 		param.addValue("person_npwp", t.getNpwpPribadi());
 		param.addValue("phone_num", t.getPhoneNumber());
 		param.addValue("email_addr", t.getEmail());
-		param.addValue("person_gender", t.getGender());
-		param.addValue("person_birthdate", t.getBirthdate());
 		param.addValue("card_no", t.getCard());
-		param.addValue("person_role", t.getRole().getId());
-		param.addValue("visibility", t.isVisible());
 		param.addValue("image_code", t.getImage());
 		
 		try
