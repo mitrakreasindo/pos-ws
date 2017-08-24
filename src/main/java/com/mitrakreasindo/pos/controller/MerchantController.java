@@ -45,7 +45,7 @@ public class MerchantController
 		// Generate password
 		String generatedpassword = GeneralFunction.generatePassword();
 		// String generatedpassword = "Admin1234!";
-		String username = merchantRegistration.getMerchant().getCode() + "_ADMIN";
+		String username = merchantRegistration.getMerchant().getCode() + "_admin".toLowerCase();
 		merchantRegistration.getPeople().setApppassword(generatedpassword);
 		merchantRegistration.getPeople().setName(username);
 		
