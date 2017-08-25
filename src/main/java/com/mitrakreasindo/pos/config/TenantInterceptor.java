@@ -35,6 +35,8 @@ public class TenantInterceptor extends HandlerInterceptorAdapter
 		String schema = request.getHeader(SCHEMA_HEADER);
 		boolean schemaSet = false;
 		
+		System.out.println("read schema from header "+schema);
+		
 		if (env.getActiveProfiles()[0].toString().equals("dev")) 
 		{
 			if (request.getRequestURL().toString().contains("api/v2/api-docs") || request.getRequestURL().toString().contains("swagger"))

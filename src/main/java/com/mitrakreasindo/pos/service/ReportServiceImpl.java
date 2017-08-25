@@ -5,14 +5,11 @@ package com.mitrakreasindo.pos.service;
 
 import java.io.ByteArrayOutputStream;
 import java.sql.Timestamp;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -35,7 +32,6 @@ import com.itextpdf.text.pdf.PdfWriter;
 import com.mitrakreasindo.pos.entities.Category;
 import com.mitrakreasindo.pos.entities.Merchant;
 import com.mitrakreasindo.pos.entities.People;
-import com.mitrakreasindo.pos.entities.Report;
 import com.mitrakreasindo.pos.entities.ReportSales;
 import com.mitrakreasindo.pos.entities.ReportCategory;
 import com.mitrakreasindo.pos.entities.ReportCategorySubItem;
@@ -402,16 +398,7 @@ public class ReportServiceImpl implements ReportService
 
 		ByteArrayOutputStream output = new ByteArrayOutputStream();
 		ReportSales report = reportSales(merchantCode, fromDate, toDate);
-
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-		DecimalFormat decimalFormat = (DecimalFormat) DecimalFormat.getCurrencyInstance();
-		DecimalFormatSymbols decimalFormatSymbol = new DecimalFormatSymbols();
-
-		decimalFormatSymbol.setCurrencySymbol("Rp. ");
-		decimalFormatSymbol.setMonetaryDecimalSeparator(',');
-		decimalFormatSymbol.setGroupingSeparator('.');
-
-		decimalFormat.setDecimalFormatSymbols(decimalFormatSymbol);
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		Document document = new Document(PageSize.A4);
 		try
 		{
@@ -462,19 +449,19 @@ public class ReportServiceImpl implements ReportService
 				{
 					table.addCell(new Phrase(p.getProductName(), colFont));
 					table.addCell(new Phrase(String.valueOf(p.getQty()), colFont));
-					table.addCell(new Phrase(decimalFormat.format(p.getPrice()), colFont));
-					table.addCell(new Phrase(decimalFormat.format(p.getSubTotal()), colFont));
+					table.addCell(new Phrase(GeneralFunction.formatCurrency(p.getPrice()), colFont));
+					table.addCell(new Phrase(GeneralFunction.formatCurrency(p.getSubTotal()), colFont));
 					table.addCell(new Phrase(String.valueOf(p.getDisc()), colFont));
-					table.addCell(new Phrase(decimalFormat.format(p.getTax()), colFont));
-					table.addCell(new Phrase(decimalFormat.format(p.getTotal()), colFont));
+					table.addCell(new Phrase(GeneralFunction.formatCurrency(p.getTax()), colFont));
+					table.addCell(new Phrase(GeneralFunction.formatCurrency(p.getTotal()), colFont));
 				}
 
 				document.add(table);
 
 				Paragraph subTotal = new Paragraph();
 				subTotal.setFont(simpleFont);
-				subTotal.add("Total " + s.getPeopleName() + "\nTax : " + decimalFormat.format(s.getTotaltax()) + " Total : "
-						+ decimalFormat.format(s.getTotalTransaction()));
+				subTotal.add("Total " + s.getPeopleName() + "\nTax : " + GeneralFunction.formatCurrency(s.getTotaltax()) + " Total : "
+						+ GeneralFunction.formatCurrency(s.getTotalTransaction()));
 				subTotal.setSpacingAfter(20);
 				subTotal.setLeading(10);
 				subTotal.setAlignment(Element.ALIGN_RIGHT);
@@ -484,8 +471,8 @@ public class ReportServiceImpl implements ReportService
 
 			Paragraph allTotal = new Paragraph();
 			allTotal.setFont(simpleFont);
-			allTotal.add("Total Sales\nTax : " + decimalFormat.format(report.getTotalTax()) + " Total : "
-					+ decimalFormat.format(report.getTotalTransaction()));
+			allTotal.add("Total Sales\nTax : " + GeneralFunction.formatCurrency(report.getTotalTax()) + " Total : "
+					+ GeneralFunction.formatCurrency(report.getTotalTransaction()));
 			allTotal.setSpacingBefore(20);
 			allTotal.setLeading(10);
 			allTotal.setAlignment(Element.ALIGN_RIGHT);
@@ -508,16 +495,7 @@ public class ReportServiceImpl implements ReportService
 
 		ByteArrayOutputStream output = new ByteArrayOutputStream();
 		ReportCategory report = reportByCategory(merchantCode, fromDate, toDate);
-
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-		DecimalFormat decimalFormat = (DecimalFormat) DecimalFormat.getCurrencyInstance();
-		DecimalFormatSymbols decimalFormatSymbol = new DecimalFormatSymbols();
-
-		decimalFormatSymbol.setCurrencySymbol("Rp. ");
-		decimalFormatSymbol.setMonetaryDecimalSeparator(',');
-		decimalFormatSymbol.setGroupingSeparator('.');
-
-		decimalFormat.setDecimalFormatSymbols(decimalFormatSymbol);
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		Document document = new Document(PageSize.A4);
 		try
 		{
@@ -569,19 +547,19 @@ public class ReportServiceImpl implements ReportService
 				{
 					table.addCell(new Phrase(p.getCategoryName(), colFont));
 					table.addCell(new Phrase(String.valueOf(p.getQty()), colFont));
-					table.addCell(new Phrase(decimalFormat.format(p.getPrice()), colFont));
-					table.addCell(new Phrase(decimalFormat.format(p.getSubTotal()), colFont));
+					table.addCell(new Phrase(GeneralFunction.formatCurrency(p.getPrice()), colFont));
+					table.addCell(new Phrase(GeneralFunction.formatCurrency(p.getSubTotal()), colFont));
 					table.addCell(new Phrase(String.valueOf(p.getDisc()), colFont));
-					table.addCell(new Phrase(decimalFormat.format(p.getTax()), colFont));
-					table.addCell(new Phrase(decimalFormat.format(p.getTotal()), colFont));
+					table.addCell(new Phrase(GeneralFunction.formatCurrency(p.getTax()), colFont));
+					table.addCell(new Phrase(GeneralFunction.formatCurrency(p.getTotal()), colFont));
 				}
 
 				document.add(table);
 
 				Paragraph subTotal = new Paragraph();
 				subTotal.setFont(simpleFont);
-				subTotal.add("Tax : " + decimalFormat.format(s.getTotaltax()) + " Sub Total : "
-						+ decimalFormat.format(s.getTotalTransaction()));
+				subTotal.add("Tax : " + GeneralFunction.formatCurrency(s.getTotaltax()) + " Sub Total : "
+						+ GeneralFunction.formatCurrency(s.getTotalTransaction()));
 				subTotal.setSpacingAfter(20);
 				subTotal.setLeading(10);
 				subTotal.setAlignment(Element.ALIGN_RIGHT);
@@ -591,8 +569,8 @@ public class ReportServiceImpl implements ReportService
 
 			Paragraph allTotal = new Paragraph();
 			allTotal.setFont(simpleFont);
-			allTotal.add("Total Sales\nTax : " + decimalFormat.format(report.getTotalTax()) + " Total : "
-					+ decimalFormat.format(report.getTotalTransaction()));
+			allTotal.add("Total Sales\nTax : " + GeneralFunction.formatCurrency(report.getTotalTax()) + " Total : "
+					+ GeneralFunction.formatCurrency(report.getTotalTransaction()));
 			allTotal.setSpacingBefore(20);
 			allTotal.setLeading(10);
 			allTotal.setAlignment(Element.ALIGN_RIGHT);
@@ -615,17 +593,7 @@ public class ReportServiceImpl implements ReportService
 
 		ByteArrayOutputStream output = new ByteArrayOutputStream();
 		ReportDate<ReportSubCategorySub> report = reportBySubCategory(merchantCode, fromDate, toDate);
-
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-		DecimalFormat decimalFormat = (DecimalFormat) DecimalFormat.getCurrencyInstance();
-		DecimalFormatSymbols decimalFormatSymbol = new DecimalFormatSymbols();
-
-		decimalFormatSymbol.setCurrencySymbol("Rp. ");
-		decimalFormatSymbol.setMonetaryDecimalSeparator(',');
-		decimalFormatSymbol.setGroupingSeparator('.');
-
-		decimalFormat.setDecimalFormatSymbols(decimalFormatSymbol);
-
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		Document document = new Document(PageSize.A4);
 		try
 		{
@@ -689,19 +657,19 @@ public class ReportServiceImpl implements ReportService
 						{
 							table.addCell(new Phrase(p.getProductName(), colFont));
 							table.addCell(new Phrase(String.valueOf(p.getQty()), colFont));
-							table.addCell(new Phrase(decimalFormat.format(p.getPrice()), colFont));
-							table.addCell(new Phrase(decimalFormat.format(p.getSubTotal()), colFont));
+							table.addCell(new Phrase(GeneralFunction.formatCurrency(p.getPrice()), colFont));
+							table.addCell(new Phrase(GeneralFunction.formatCurrency(p.getSubTotal()), colFont));
 							table.addCell(new Phrase(String.valueOf(p.getDisc()), colFont));
-							table.addCell(new Phrase(decimalFormat.format(p.getTax()), colFont));
-							table.addCell(new Phrase(decimalFormat.format(p.getTotal()), colFont));
+							table.addCell(new Phrase(GeneralFunction.formatCurrency(p.getTax()), colFont));
+							table.addCell(new Phrase(GeneralFunction.formatCurrency(p.getTotal()), colFont));
 						}
 
 						document.add(table);
 
 						Paragraph subTotal = new Paragraph();
 						subTotal.setFont(simpleFont);
-						subTotal.add("Tax : " + decimalFormat.format(s.getTotaltax()) + " Sub Total : "
-								+ decimalFormat.format(s.getTotalTransaction()));
+						subTotal.add("Tax : " + GeneralFunction.formatCurrency(s.getTotaltax()) + " Sub Total : "
+								+ GeneralFunction.formatCurrency(s.getTotalTransaction()));
 						subTotal.setSpacingAfter(10);
 						subTotal.setLeading(10);
 						subTotal.setAlignment(Element.ALIGN_RIGHT);
@@ -717,8 +685,8 @@ public class ReportServiceImpl implements ReportService
 
 			Paragraph allTotal = new Paragraph();
 			allTotal.setFont(simpleFont);
-			allTotal.add("Total Sales\nTax : " + decimalFormat.format(report.getTotalTax()) + " Total : "
-					+ decimalFormat.format(report.getTotalTransaction()));
+			allTotal.add("Total Sales\nTax : " + GeneralFunction.formatCurrency(report.getTotalTax()) + " Total : "
+					+ GeneralFunction.formatCurrency(report.getTotalTransaction()));
 			allTotal.setSpacingBefore(20);
 			allTotal.setLeading(10);
 			allTotal.setAlignment(Element.ALIGN_RIGHT);

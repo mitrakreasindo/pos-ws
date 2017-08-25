@@ -68,6 +68,7 @@ public class PeopleServiceImpl extends BaseServiceImpl<People> implements People
 		param.addValue("phone_num", t.getPhoneNumber());
 		param.addValue("email_addr", t.getEmail());
 		param.addValue("card_no", t.getCard());
+		param.addValue("visibility", t.isVisible());
 		param.addValue("image_code", t.getImage());
 		
 		try

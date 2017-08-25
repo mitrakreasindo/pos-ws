@@ -51,10 +51,12 @@ public class MultiTenantConnectionProfiderImpl implements MultiTenantConnectionP
 			if (schema != null)
 			{
 				connection.createStatement().execute("set search_path to "+schema);
+				System.out.println("get connection not null, setting to "+schema);
 			}
 			else
 			{
 				connection.createStatement().execute("set search_path to "+TenantContext.defaultSchema);
+				System.out.println("get connection schema null, setting to "+TenantContext.defaultSchema);
 			}
 		} 
 		catch (SQLException e)
@@ -77,6 +79,7 @@ public class MultiTenantConnectionProfiderImpl implements MultiTenantConnectionP
 		try
 		{
 			connection.createStatement().execute("set search_path to "+TenantContext.defaultSchema);
+			System.out.println("release connection, set schema to "+TenantContext.defaultSchema);
 		} 
 		catch (SQLException e)
 		{

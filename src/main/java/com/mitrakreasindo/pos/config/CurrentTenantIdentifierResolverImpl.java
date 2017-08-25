@@ -20,8 +20,10 @@ public class CurrentTenantIdentifierResolverImpl implements CurrentTenantIdentif
 		String schema = TenantContext.getCurrentSchema();
 		if (schema != null)
 		{
+			System.out.println("tenant identifier schema : "+schema);
 			return schema;
 		}
+		System.out.println("tenant identifier schema default : "+TenantContext.defaultSchema);
 		return TenantContext.defaultSchema;
 	}
 

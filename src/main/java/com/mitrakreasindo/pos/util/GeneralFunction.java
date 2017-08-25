@@ -6,6 +6,8 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -231,4 +233,12 @@ public class GeneralFunction {
     return outputdate;
   }
 	
+  public static String formatCurrency(Double currency)
+  {
+		DecimalFormatSymbols decimalFormatSymbol = new DecimalFormatSymbols();
+		decimalFormatSymbol.setGroupingSeparator('.');
+		DecimalFormat decimalFormat = new DecimalFormat("#,###", decimalFormatSymbol);
+		return "Rp. "+decimalFormat.format(currency);
+  }
+  
 }
