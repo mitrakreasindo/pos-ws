@@ -20,9 +20,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mitrakreasindo.pos.entities.ReportSales;
+import com.mitrakreasindo.pos.entities.ReportSalesSub;
 import com.mitrakreasindo.pos.entities.ReportSubCategorySub;
-import com.mitrakreasindo.pos.entities.ReportCategory;
+import com.mitrakreasindo.pos.entities.Report;
+import com.mitrakreasindo.pos.entities.ReportCategorySub;
 import com.mitrakreasindo.pos.entities.ReportDate;
 import com.mitrakreasindo.pos.service.ReportService;
 
@@ -40,7 +41,7 @@ public class ReportController
 	
 	
 	@GetMapping(value = "/sales")
-	public ReportSales getMultiUserReportSales(@RequestHeader("merchantCode") String merchantCode, 
+	public Report<ReportSalesSub> getMultiUserReportSales(@RequestHeader("merchantCode") String merchantCode, 
 			@RequestParam("fromDate")  Timestamp fromDate, 
 			@RequestParam("toDate") Timestamp toDate)
 	{
@@ -48,7 +49,7 @@ public class ReportController
 	}
 	
 	@GetMapping(value = "/category")
-	public ReportCategory reportByCategory(@RequestHeader("merchantCode") String merchantCode, 
+	public Report<ReportCategorySub> reportByCategory(@RequestHeader("merchantCode") String merchantCode, 
 			@RequestParam("fromDate")  Timestamp fromDate, 
 			@RequestParam("toDate") Timestamp toDate)
 	{

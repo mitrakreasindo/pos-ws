@@ -32,8 +32,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 import com.mitrakreasindo.pos.entities.Category;
 import com.mitrakreasindo.pos.entities.Merchant;
 import com.mitrakreasindo.pos.entities.People;
-import com.mitrakreasindo.pos.entities.ReportSales;
-import com.mitrakreasindo.pos.entities.ReportCategory;
+import com.mitrakreasindo.pos.entities.Report;
 import com.mitrakreasindo.pos.entities.ReportCategorySubItem;
 import com.mitrakreasindo.pos.entities.ReportDate;
 import com.mitrakreasindo.pos.entities.ReportSalesSubItem;
@@ -76,9 +75,9 @@ public class ReportServiceImpl implements ReportService
 	@Autowired
 	private ViewSalesItemService viewSalesItemService;
 
-	public ReportSales reportSales(String merchantCode, Timestamp fromDate, Timestamp toDate)
+	public Report<ReportSalesSub> reportSales(String merchantCode, Timestamp fromDate, Timestamp toDate)
 	{
-		ReportSales report = new ReportSales();
+		Report<ReportSalesSub> report = new Report<>();
 		List<Timestamp> listTime = rangeDate(fromDate, toDate);
 		List<String> peoplesId = new ArrayList<>();
 		List<ReportSalesSub> subReports = new ArrayList<>();
@@ -177,9 +176,9 @@ public class ReportServiceImpl implements ReportService
 		return report;
 	}
 
-	public ReportCategory reportByCategory(String merchantCode, Timestamp fromDate, Timestamp toDate)
+	public Report<ReportCategorySub> reportByCategory(String merchantCode, Timestamp fromDate, Timestamp toDate)
 	{
-		ReportCategory report = new ReportCategory();
+		Report<ReportCategorySub> report = new Report<>();
 		List<Timestamp> listTime = rangeDate(fromDate, toDate);
 		List<Category> categories = new ArrayList<>();
 		List<ReportCategorySub> subReports = new ArrayList<>();
@@ -397,7 +396,7 @@ public class ReportServiceImpl implements ReportService
 	{
 
 		ByteArrayOutputStream output = new ByteArrayOutputStream();
-		ReportSales report = reportSales(merchantCode, fromDate, toDate);
+		Report<ReportSalesSub> report = reportSales(merchantCode, fromDate, toDate);
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		Document document = new Document(PageSize.A4);
 		try
@@ -494,7 +493,7 @@ public class ReportServiceImpl implements ReportService
 	{
 
 		ByteArrayOutputStream output = new ByteArrayOutputStream();
-		ReportCategory report = reportByCategory(merchantCode, fromDate, toDate);
+		Report<ReportCategorySub> report = reportByCategory(merchantCode, fromDate, toDate);
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		Document document = new Document(PageSize.A4);
 		try
