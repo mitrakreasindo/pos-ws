@@ -39,12 +39,14 @@ public class CategoryServiceImpl extends BaseServiceImpl<Category> implements Ca
     MapSqlParameterSource param = new MapSqlParameterSource();
     param.addValue("category_id", category.getId());
     param.addValue("category_name", category.getName());
-    param.addValue("parent_id", category.getParentid());
     param.addValue("text_tip", category.getTexttip());
     param.addValue("category_showname", category.isCatshowname());
     param.addValue("category_image", category.getImage());
     param.addValue("category_colour", category.getColour());
     param.addValue("category_order", category.getCatorder());
+    
+    param.addValue("parent_id", category.getParentid() != null ? 
+    		category.getParentid().getId() : null );
         
     return executeProcedure("insert_category", param);
   }
@@ -57,13 +59,15 @@ public class CategoryServiceImpl extends BaseServiceImpl<Category> implements Ca
     MapSqlParameterSource param = new MapSqlParameterSource();
     param.addValue("category_id", category.getId());
     param.addValue("category_name", category.getName());
-    param.addValue("parent_id", category.getParentid());
     param.addValue("text_tip", category.getTexttip());
     param.addValue("category_showname", category.isCatshowname());
     param.addValue("category_image", category.getImage());
     param.addValue("category_colour", category.getColour());
     param.addValue("category_order", category.getCatorder());
         
+    param.addValue("parent_id", category.getParentid() != null ? 
+    		category.getParentid().getId() : null );
+    
     return executeProcedure("update_category", param);
   }
 

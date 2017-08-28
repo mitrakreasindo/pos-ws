@@ -60,7 +60,6 @@ public class PeopleServiceImpl extends BaseServiceImpl<People> implements People
 		MapSqlParameterSource param = new MapSqlParameterSource();
 		param.addValue("person_id", t.getId());
 		param.addValue("person_name", t.getName());
-		param.addValue("old_pass", t.getOldPassword());
 		param.addValue("person_full_name", t.getFullname());
 		param.addValue("person_id_type", t.getPersonalIdType());
 		param.addValue("person_id_number", t.getPersonalId());
@@ -78,6 +77,13 @@ public class PeopleServiceImpl extends BaseServiceImpl<People> implements People
       }
       else{
       	param.addValue("app_pass", GeneralFunction.checkNullString(GeneralFunction.encryptPassword(t.getApppassword())));
+      }
+      
+      if(t.getOldPassword() == "" || t.getOldPassword() == null){
+        param.addValue("old_pass", "");
+      }
+      else{
+      	param.addValue("old_pass", GeneralFunction.checkNullString(GeneralFunction.encryptPassword(t.getOldPassword())));
       }
     }
     catch (Exception e)
