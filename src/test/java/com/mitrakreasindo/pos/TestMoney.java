@@ -3,6 +3,9 @@
  */
 package com.mitrakreasindo.pos;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.mitrakreasindo.pos.service.MoneyService;
+import com.mitrakreasindo.pos.util.GeneralFunction;
 
 /**
  * @author miftakhul
@@ -44,6 +48,27 @@ public class TestMoney
 		double ryear = service.getRevenueThisYear();
 		System.out.println(" ryear =============== "+ryear);
 		System.out.println("total ============= day "+rday+" week "+rweek+" month "+rmonth+" year "+ryear);
+		
+		
+		
+		
+		
+		
+		
+		
+		try
+		{
+			String a = GeneralFunction.checkNullString(GeneralFunction.encryptPassword(""));
+			System.out.println(a);
+		} catch (NoSuchAlgorithmException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

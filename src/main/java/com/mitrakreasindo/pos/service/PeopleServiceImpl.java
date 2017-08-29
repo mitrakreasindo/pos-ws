@@ -77,18 +77,12 @@ public class PeopleServiceImpl extends BaseServiceImpl<People> implements People
       }
       else{
       	param.addValue("app_pass", GeneralFunction.checkNullString(GeneralFunction.encryptPassword(t.getApppassword())));
-      }
-      
-      if(t.getOldPassword() == "" || t.getOldPassword() == null){
-        param.addValue("old_pass", "");
-      }
-      else{
-      	param.addValue("old_pass", GeneralFunction.checkNullString(GeneralFunction.encryptPassword(t.getOldPassword())));
-      }
+      }      
+      param.addValue("old_pass", GeneralFunction.checkNullString(GeneralFunction.encryptPassword(t.getOldPassword())));
     }
     catch (Exception e)
     {
-      //return 
+      e.printStackTrace();
     }
 		return executeProcedure("update_user", param);
 	}
